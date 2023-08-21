@@ -24,15 +24,12 @@
   top: 0;
   left: 0;
   right: 0;
-  
   padding: 25px;
 }
 .quote {
   font-size: 30px;
   text-align: center;
-}
-.bottom {
-  padding-bottom: 75px;
+  color: black;
 }
 /* This is my onw work */
 
@@ -43,12 +40,7 @@
   padding: 3px;
 }
 .row {
-  text-align:center;
-}
-@media screen and (max-width: 1415px) {
-  .column {
-    padding: 40px;
-  }
+  text-align: center;
 }
 
 
@@ -61,8 +53,8 @@
   perspective: 1000px;
 }
 .reflection-container .reflection-content {
-  height: 60vh;
-  width: 50vh;
+  height: 360px;
+  width: 300px;
   background-position: center;
   transform: rotateX(0) rotateY(0);
   pointer-events: none;
