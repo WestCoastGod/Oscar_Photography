@@ -1,3 +1,3 @@
-# TXA_Photography
+# Oscar_Photography
 
-This is my personal project of creating a website to share my photography works with my friends.
+This is my project to create a website where I can share my photography works with my friends.
