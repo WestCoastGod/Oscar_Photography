@@ -14,7 +14,10 @@ const Sidebar = () => {
 
       {/* 导航菜单 */}
       <nav className="space-y-4 w-full">
-        <Link to="/home" className="items-cente text-gray-700 hover:text-blue-600">
+        <Link
+          to="/home"
+          className="items-cente text-gray-700 hover:text-blue-600"
+        >
           <nav className="w-5 h-5" /> Home
         </Link>
         <Link
@@ -39,7 +42,7 @@ const Sidebar = () => {
           rel="noopener noreferrer"
         >
           <img
-            src="public\images\github.svg"
+            src="/images/github.svg"
             alt="GitHub"
             className="w-6 h-6 hover:opacity-70"
           />
@@ -50,7 +53,7 @@ const Sidebar = () => {
           rel="noopener noreferrer"
         >
           <img
-            src="public\images\instagram.svg"
+            src="/images/instagram.svg"
             alt="Instagram"
             className="w-6 h-6 hover:opacity-70"
           />
@@ -61,7 +64,7 @@ const Sidebar = () => {
           rel="noopener noreferrer"
         >
           <img
-            src="public\images\linkedin.svg"
+            src="/images/linkedin.svg"
             alt="LinkedIn"
             className="w-6 h-6 hover:opacity-70"
           />
