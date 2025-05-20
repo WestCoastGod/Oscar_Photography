@@ -96,14 +96,14 @@ const originalPhotos = [
   {
     id: 48,
     src: "/images/photos/巷子裡的光-狹縫裡的人.jpg",
-    title: "Light in Alley",
+    title: "Light in Alley - Him",
   },
   { id: 49, src: "/images/photos/我的眼睛.jpg", title: "My Eyes" },
   { id: 50, src: "/images/photos/故宮貓.jpg", title: "Forbidden City Cat" },
   { id: 51, src: "/images/photos/敬文旁.jpg", title: "Beside Jingwen" },
   { id: 52, src: "/images/photos/昆明湖.jpg", title: "Kunming Lake" },
   { id: 53, src: "/images/photos/景山北.jpg", title: "Jingshan North" },
-  { id: 54, src: "/images/photos/月亮.jpg", title: "Moon (Chinese)" },
+  { id: 54, src: "/images/photos/月亮.jpg", title: "Moon" },
   {
     id: 55,
     src: "/images/photos/未圓湖的鳥.jpg",
@@ -187,9 +187,11 @@ const Home = () => {
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-black text-2xl"
+              className="absolute top-4 right-9 text-gray-500 hover:text-black text-2xl"
               onClick={() => setSelected(null)}
-            ></button>
+            >
+              x
+            </button>
             <div className="flex items-center justify-center h-[80vh]">
               <img
                 src={selected.src}
