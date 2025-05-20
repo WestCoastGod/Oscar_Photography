@@ -35,8 +35,7 @@
   border-radius: 50%;
   filter: drop-shadow(0 0 6px currentColor);
   transform: translate3d(130vw, 0, 0);
-  animation: 
-    fall var(--fall-duration) var(--fall-delay) linear infinite,
+  animation: fall var(--fall-duration) var(--fall-delay) linear infinite,
     tail-fade var(--tail-fade-duration) var(--fall-delay) ease-out infinite;
 }
 
@@ -54,8 +53,12 @@
   animation: blink 2s linear infinite;
 }
 
-.star::before { transform: rotate(45deg); }
-.star::after { transform: rotate(-45deg); }
+.star::before {
+  transform: rotate(45deg);
+}
+.star::after {
+  transform: rotate(-45deg);
+}
 
 /* 响应式调整 */
 @media screen and (max-width: 750px) {
@@ -66,17 +69,32 @@
 
 /* ===== 动画定义 ===== */
 @keyframes fall {
-  to { transform: translate3d(-40em, 0, 0); }
+  to {
+    transform: translate3d(-40em, 0, 0);
+  }
 }
 
 @keyframes tail-fade {
-  0%, 50% { width: var(--star-tail-length); opacity: 1; }
-  70%, 80% { width: 0; opacity: 0.4; }
-  100% { width: 0; opacity: 0; }
+  0%,
+  50% {
+    width: var(--star-tail-length);
+    opacity: 1;
+  }
+  70%,
+  80% {
+    width: 0;
+    opacity: 0.4;
+  }
+  100% {
+    width: 0;
+    opacity: 0;
+  }
 }
 
 @keyframes blink {
-  50% { opacity: 0.6; }
+  50% {
+    opacity: 0.6;
+  }
 }
 
 /* ===== 通用属性 ===== */
