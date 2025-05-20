@@ -4,7 +4,7 @@ const Sidebar = () => {
   return (
     <div className="w-48 bg-white shadow-none fixed h-full flex flex-col items-start p-10">
       {/* 头像链接 */}
-      <Link to="/welcome" className="block mb-4">
+      <Link to="/" className="block mb-4">
         <img
           src="/images/Profile%20Photo.JPG"
           className="w-24 h-24 rounded-full mx-auto hover:opacity-80 transition-opacity"
@@ -14,7 +14,7 @@ const Sidebar = () => {
 
       {/* 导航菜单 */}
       <nav className="space-y-4 w-full">
-        <Link to="/" className="items-cente text-gray-700 hover:text-blue-600">
+        <Link to="/home" className="items-cente text-gray-700 hover:text-blue-600">
           <nav className="w-5 h-5" /> Home
         </Link>
         <Link

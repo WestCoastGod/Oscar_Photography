@@ -35,7 +35,7 @@ const Welcome = () => {
           Glad that you are here!{"\n"}Wish you happy every day!
         </h1>
         <Link
-          to="/"
+          to="/home"
           className="px-8 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition-colors flex items-center gap-2"
         >
           <span>Let's Go!</span>
