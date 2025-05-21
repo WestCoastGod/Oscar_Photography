@@ -185,14 +185,14 @@ const Home = () => {
           <div
             className="bg-white rounded-lg p-8 relative"
             style={{
-              maxWidth: "90vw", // 與圖片的 max-w-[90vw] 保持一致
+              maxWidth: "100vw", // 與圖片的 max-w-[90vw] 保持一致
               maxHeight: "100vh", // 限制最大高度
               overflow: "hidden", // 防止內容溢出
             }}
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="absolute top-2 right-3 text-gray-500 hover:text-black text-2xl"
+              className="absolute top-0.5 right-3 text-gray-500 hover:text-black text-2xl"
               onClick={() => setSelected(null)}
             >
               x
