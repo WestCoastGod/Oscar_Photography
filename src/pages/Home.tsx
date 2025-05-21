@@ -157,8 +157,6 @@ const Home = () => {
     desc?: string;
   }>(null);
 
-  const [imgRatio, setImgRatio] = useState(16 / 9);
-
   return (
     <div className="container max-w-[90vw] mx-auto py-8">
       <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2">
