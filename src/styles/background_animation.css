@@ -1,4 +1,4 @@
-/* ===== 星空背景动画样式 ===== */
+/* ===== 星空背景動畫樣式 ===== */
 /* 主容器 */
 .stars {
   position: fixed;
@@ -8,38 +8,39 @@
   z-index: 0;
   pointer-events: none;
   transform: rotate(-45deg);
-  overflow: hidden;
+  overflow: visible;
 }
 
-/* 全局变量定义 */
+/* 全局變數定義 */
 :root {
   --primary-color: rgb(245, 177, 180);
   --star-tail-length: 6em;
   --star-tail-height: 2px;
   --star-width: calc(var(--star-tail-length) / 6);
   --fall-duration: 15s;
+  --fade-in-duration: 1s;
 }
 
-/* 单个流星元素 */
+/* 單個流星元素 */
 .star {
   --star-color: var(--primary-color);
-  --tail-fade-duration: var(--fall-duration);
 
   position: absolute;
   top: var(--top-offset);
-  left: 0;
+  left: var(--left-offset);
   width: var(--star-tail-length);
   height: var(--star-tail-height);
   color: var(--star-color);
   background: linear-gradient(45deg, currentColor, transparent);
   border-radius: 50%;
   filter: drop-shadow(0 0 6px currentColor);
-  transform: translate3d(130vw, 0, 0);
-  animation: fall var(--fall-duration) var(--fall-delay) linear infinite,
-    tail-fade var(--tail-fade-duration) var(--fall-delay) ease-out infinite;
+  transform: translate3d(50em, 0, 0);
+  opacity: 0;
+  animation: shooting-star var(--fall-duration) var(--fall-delay) linear
+    infinite;
 }
 
-/* 流星头部装饰元素 */
+/* 流星頭部裝飾元素 */
 .star::before,
 .star::after {
   position: absolute;
@@ -60,34 +61,32 @@
   transform: rotate(-45deg);
 }
 
-/* 响应式调整 */
+/* 響應式調整 */
 @media screen and (max-width: 750px) {
   .star {
-    animation: fall var(--fall-duration) var(--fall-delay) linear infinite;
+    animation: shooting-star var(--fall-duration) var(--fall-delay) linear
+      infinite;
   }
 }
 
-/* ===== 动画定义 ===== */
-@keyframes fall {
-  to {
-    transform: translate3d(-40em, 0, 0);
-  }
-}
-
-@keyframes tail-fade {
-  0%,
-  50% {
+/* ===== 動畫定義 ===== */
+@keyframes shooting-star {
+  0% {
+    transform: translate3d(30em, 0, 0);
+    opacity: 0;
     width: var(--star-tail-length);
-    opacity: 1;
   }
-  70%,
+  10% {
+    opacity: 1; /* 快速淡入 */
+  }
   80% {
-    width: 0;
-    opacity: 0.4;
+    opacity: 1; /* 保持可見 */
+    width: var(--star-tail-length);
   }
   100% {
-    width: 0;
+    transform: translate3d(-40em, 10em, 0);
     opacity: 0;
+    width: 0;
   }
 }
 
@@ -97,7 +96,7 @@
   }
 }
 
-/* ===== 通用属性 ===== */
+/* ===== 通用屬性 ===== */
 .stars,
 .star {
   pointer-events: none;

@@ -3,11 +3,12 @@ import "../styles/background_animation.css";
 
 export const ShootingStars: React.FC = () => (
   <div className="stars">
-    {Array.from({ length: 100 }).map((_, i) => {
+    {Array.from({ length: 80 }).map((_, i) => {
       const tail = (Math.random() * 2.5 + 5).toFixed(2); // 5~7.5em
-      const top = (Math.random() * 160 - 30).toFixed(2); // -30~130vh
+      const top = (Math.random() * 200 - 30).toFixed(2); // -30~130vh
       const duration = (Math.random() * 6 + 6).toFixed(3); // 6~12s
       const delay = (Math.random() * 8).toFixed(3); // 0~8s
+      const left = (Math.random() * 140 - 20).toFixed(2); // -20vw ~ 120vw
       return (
         <div
           className="star"
@@ -16,6 +17,7 @@ export const ShootingStars: React.FC = () => (
             {
               "--star-tail-length": `${tail}em`,
               "--top-offset": `${top}vh`,
+              "--left-offset": `${left}vw`,
               "--fall-duration": `${duration}s`,
               "--fall-delay": `${delay}s`,
             } as React.CSSProperties

@@ -157,6 +157,8 @@ const Home = () => {
     desc?: string;
   }>(null);
 
+  const [imgRatio, setImgRatio] = useState(16 / 9);
+
   return (
     <div className="container max-w-[90vw] mx-auto py-8">
       <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2">
@@ -183,20 +185,37 @@ const Home = () => {
           onClick={() => setSelected(null)}
         >
           <div
-            className="bg-white rounded-lg p-8 max-w-3xl w-full relative"
+            className="bg-white rounded-lg p-8 relative"
+            style={{
+              maxWidth: "90vw", // 與圖片的 max-w-[90vw] 保持一致
+              maxHeight: "100vh", // 限制最大高度
+              overflow: "hidden", // 防止內容溢出
+            }}
             onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="absolute top-4 right-9 text-gray-500 hover:text-black text-2xl"
+              className="absolute top-2 right-3 text-gray-500 hover:text-black text-2xl"
               onClick={() => setSelected(null)}
             >
               x
             </button>
-            <div className="flex items-center justify-center h-[80vh]">
+            <div
+              className="flex items-center justify-center"
+              style={{
+                // 不設 height，不設 width，讓內容自適應
+                maxHeight: "80vh",
+                maxWidth: "90vw",
+                margin: "0 auto",
+              }}
+            >
               <img
                 src={selected.src}
                 alt={selected.title}
-                className="max-h-full max-w-full mx-auto mb-4 rounded object-contain"
+                className="max-h-[80vh] max-w-[90vw] mx-auto mb-4 rounded object-contain"
+                style={{
+                  display: "block",
+                  background: "#f8f8f8",
+                }}
               />
             </div>
             <h2 className="text-xl font-bold mb-2">{selected.title}</h2>
