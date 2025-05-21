@@ -3,7 +3,7 @@ import "../styles/background_animation.css";
 
 export const ShootingStars: React.FC = () => (
   <div className="stars">
-    {Array.from({ length: 150 }).map((_, i) => {
+    {Array.from({ length: 100 }).map((_, i) => {
       const tail = (Math.random() * 2.5 + 5).toFixed(2); // 5~7.5em
       const top = (Math.random() * 160 - 30).toFixed(2); // -30~130vh
       const duration = (Math.random() * 6 + 6).toFixed(3); // 6~12s
