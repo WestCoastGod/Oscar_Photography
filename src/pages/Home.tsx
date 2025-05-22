@@ -1,8 +1,13 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 // 原始照片列表
 const originalPhotos = [
-  { id: 1, src: "/images/photos/beijing_sky.jpg", title: "Beijing Sky" },
+  {
+    id: 1,
+    src: "/images/photos/beijing_sky.jpg",
+    title: "Beijing Sky",
+    desc: "That was a peaceful afternoon in Beijing. The sun was going down, and the sky was painted with beautiful colors. That was a peaceful afternoon in Beijing. The sun was going down, and the sky was painted with beautiful colors. That was a peaceful afternoon in Beijing. The sun was going down, and the sky was painted with beautiful colors. That was a peaceful afternoon in Beijing. The sun was going down, and the sky was painted with beautiful colors.",
+  },
   { id: 2, src: "/images/photos/Berlin Tower.JPG", title: "Berlin Tower" },
   {
     id: 3,
@@ -156,6 +161,20 @@ const Home = () => {
     title: string;
     desc?: string;
   }>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // 控制全屏時 body 不可滾動
+  useEffect(() => {
+    if (isFullscreen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    // 清理副作用
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isFullscreen]);
 
   return (
     <div className="container max-w-[90vw] mx-auto py-8">
@@ -179,45 +198,143 @@ const Home = () => {
       {/* Modal 放大圖與介紹 */}
       {selected && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
-          onClick={() => setSelected(null)}
+          className={`fixed inset-0 flex items-center justify-center z-50 transition-colors duration-300 ${
+            isFullscreen ? "bg-white" : "bg-black bg-opacity-60"
+          }`}
+          style={{}}
         >
           <div
-            className="bg-white rounded-lg p-8 relative"
+            className="relative flex flex-col items-center justify-center shadow-lg"
             style={{
-              maxWidth: "100vw", // 與圖片的 max-w-[90vw] 保持一致
-              maxHeight: "100vh", // 限制最大高度
-              overflow: "hidden", // 防止內容溢出
+              width: isFullscreen ? "100vw" : "1100px",
+              maxWidth: "95vw",
+              height: isFullscreen ? "100vh" : "80vh",
+              maxHeight: "95vh",
+              background: "white",
+              borderRadius: isFullscreen ? 0 : "0.75rem",
+              overflow: "hidden",
+              transition: "all 0.3s",
+              boxShadow: isFullscreen ? "none" : undefined,
+              padding: isFullscreen ? "40px 40px" : "32px 32px",
+              boxSizing: "border-box",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
             }}
             onClick={(e) => e.stopPropagation()}
           >
+            {/* 關閉按鈕（右上角） */}
             <button
-              className="absolute top-0.5 right-3 text-gray-500 hover:text-black text-2xl"
-              onClick={() => setSelected(null)}
+              className="absolute top-6 right-6 text-gray-500 hover:text-black text-2xl z-20"
+              onClick={() => {
+                setSelected(null);
+                setIsFullscreen(false);
+              }}
+              aria-label="Close"
             >
-              x
+              ×
             </button>
+            {/* 全屏按鈕（左上角） */}
+            <button
+              className="absolute top-6 left-6 text-gray-500 hover:text-black text-2xl z-20"
+              onClick={() => setIsFullscreen((f) => !f)}
+              aria-label="Fullscreen"
+              title={isFullscreen ? "退出全屏" : "全屏"}
+            >
+              {isFullscreen ? (
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M9 3H5a2 2 0 0 0-2 2v4m0 6v4a2 2 0 0 0 2 2h4m6-18h4a2 2 0 0 1 2 2v4m0 6v4a2 2 0 0 1-2 2h-4" />
+                </svg>
+              ) : (
+                <svg
+                  width="24"
+                  height="24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M4 4h6M4 4v6M20 4h-6M20 4v6M4 20h6M4 20v-6M20 20h-6M20 20v-6" />
+                </svg>
+              )}
+            </button>
+            {/* 上一張按鈕 */}
+            <button
+              className="absolute left-0 top-1/2 -translate-y-1/2  p-3 text-3xl"
+              style={{ minWidth: 48 }}
+              onClick={() => {
+                const idx = photos.findIndex((p) => p.id === selected.id);
+                if (idx > 0) setSelected(photos[idx - 1]);
+              }}
+              disabled={photos.findIndex((p) => p.id === selected.id) === 0}
+              aria-label="Previous"
+            >
+              ‹
+            </button>
+            {/* 下一張按鈕 */}
+            <button
+              className="absolute right-0 top-1/2 -translate-y-1/2 p-3 text-3xl"
+              style={{ minWidth: 48 }}
+              onClick={() => {
+                const idx = photos.findIndex((p) => p.id === selected.id);
+                if (idx < photos.length - 1) setSelected(photos[idx + 1]);
+              }}
+              disabled={
+                photos.findIndex((p) => p.id === selected.id) ===
+                photos.length - 1
+              }
+              aria-label="Next"
+            >
+              ›
+            </button>
+            {/* 圖片顯示區（四周留白） */}
             <div
-              className="flex items-center justify-center"
+              className="flex-1 flex items-center justify-center w-full"
               style={{
-                // 不設 height，不設 width，讓內容自適應
-                maxHeight: "80vh",
-                maxWidth: "90vw",
-                margin: "0 auto",
+                padding: isFullscreen ? "32px 0" : "24px 0",
+                borderRadius: "0.5rem",
+                width: "100%",
+                boxSizing: "border-box",
               }}
             >
               <img
                 src={selected.src}
                 alt={selected.title}
-                className="max-h-[80vh] max-w-[90vw] mx-auto mb-4 rounded object-contain"
+                className="max-h-full max-w-full mx-auto rounded object-contain"
                 style={{
                   display: "block",
+                  margin: "0 auto",
                   background: "#f8f8f8",
+                  width: "auto",
+                  height: "auto",
+                  maxHeight: isFullscreen
+                    ? "calc(100vh - 160px)"
+                    : "calc(80vh - 160px)",
+                  maxWidth: "100%",
                 }}
               />
             </div>
-            <h2 className="text-xl font-bold mb-2">{selected.title}</h2>
-            <p>{selected.desc}</p>
+            {/* 標題與描述（非全屏時顯示） */}
+            {!isFullscreen && (
+              <>
+                <h2 className="text-xl font-bold mb-2 px-6 w-full text-center">
+                  {selected.title}
+                </h2>
+                <div
+                  className="overflow-y-auto px-6 pb-4 w-full text-center"
+                  style={{
+                    maxHeight: "100px",
+                  }}
+                >
+                  <p>{selected.desc}</p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

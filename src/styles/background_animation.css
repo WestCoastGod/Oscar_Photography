@@ -34,7 +34,7 @@
   background: linear-gradient(45deg, currentColor, transparent);
   border-radius: 50%;
   filter: drop-shadow(0 0 6px currentColor);
-  transform: translate3d(90em, 0, 0);
+  transform: translate3d(200em, 0, 0);
   opacity: 0;
   animation: shooting-star var(--fall-duration) var(--fall-delay) linear
     infinite;
