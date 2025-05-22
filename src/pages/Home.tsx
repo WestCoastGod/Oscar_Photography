@@ -293,48 +293,56 @@ const Home = () => {
               ›
             </button>
             {/* 圖片顯示區（四周留白） */}
-            <div
-              className="flex-1 flex items-center justify-center w-full"
-              style={{
-                padding: isFullscreen ? "32px 0" : "24px 0",
-                borderRadius: "0.5rem",
-                width: "100%",
-                boxSizing: "border-box",
-              }}
-            >
-              <img
-                src={selected.src}
-                alt={selected.title}
-                className="max-h-full max-w-full mx-auto rounded object-contain"
-                style={{
-                  display: "block",
-                  margin: "0 auto",
-                  background: "#f8f8f8",
-                  width: "auto",
-                  height: "auto",
-                  maxHeight: isFullscreen
-                    ? "calc(100vh - 160px)"
-                    : "calc(80vh - 160px)",
-                  maxWidth: "100%",
-                }}
-              />
-            </div>
-            {/* 標題與描述（非全屏時顯示） */}
-            {!isFullscreen && (
-              <>
-                <h2 className="text-xl font-bold mb-2 px-6 w-full text-center">
-                  {selected.title}
-                </h2>
+            {/* Modal 內容 */}
+            <div className="flex-1 flex flex-col items-center justify-center w-full">
+              <div
+                className="flex flex-col items-center w-full"
+                style={{ gap: "0px" }}
+              >
                 <div
-                  className="overflow-y-auto px-6 pb-4 w-full text-center"
+                  className="flex items-center justify-center w-full"
                   style={{
-                    maxHeight: "100px",
+                    padding: isFullscreen ? "32px 0" : "24px 0",
+                    borderRadius: "0.5rem",
+                    width: "100%",
+                    boxSizing: "border-box",
                   }}
                 >
-                  <p>{selected.desc}</p>
+                  <img
+                    src={selected.src}
+                    alt={selected.title}
+                    className="max-h-full max-w-full mx-auto rounded object-contain"
+                    style={{
+                      display: "block",
+                      margin: "0 auto",
+                      background: "#f8f8f8",
+                      width: "auto",
+                      height: "auto",
+                      maxHeight: isFullscreen
+                        ? "calc(100vh - 220px)"
+                        : "calc(80vh - 220px)",
+                      maxWidth: "100%",
+                    }}
+                  />
                 </div>
-              </>
-            )}
+                {/* 標題與描述（非全屏時顯示） */}
+                {!isFullscreen && (
+                  <div className="w-full flex flex-col items-center">
+                    <h2 className="text-xl font-bold mb-2 px-6 w-full text-center">
+                      {selected.title}
+                    </h2>
+                    <div
+                      className="overflow-y-auto px-6 pb-4 w-full text-center"
+                      style={{
+                        maxHeight: "100px",
+                      }}
+                    >
+                      <p>{selected.desc}</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}

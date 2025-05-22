@@ -7,7 +7,7 @@ export const ShootingStars: React.FC = () => (
       const tail = (Math.random() * 2.5 + 5).toFixed(2); // 5~7.5em
       const top = (Math.random() * 200 - 30).toFixed(2); // -30~130vh
       const duration = (Math.random() * 6 + 6).toFixed(3); // 6~12s
-      const delay = (Math.random() * 8).toFixed(3); // 0~8s
+      const delay = (Math.random() * 3).toFixed(3); // 0~8s
       const left = (Math.random() * 140 - 20).toFixed(2); // -20vw ~ 120vw
       return (
         <div
