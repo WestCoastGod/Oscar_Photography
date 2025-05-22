@@ -228,7 +228,7 @@ const Home = () => {
           >
             {/* 關閉按鈕（右上角） */}
             <button
-              className="absolute top-4 right-6 text-gray-500 hover:text-black text-3xl z-20"
+              className="absolute right-6 text-gray-500 hover:text-black text-2xl z-20"
               style={{
                 top: isFullscreen
                   ? "calc(1.5rem + env(safe-area-inset-top, 0px))"
@@ -244,7 +244,7 @@ const Home = () => {
             </button>
             {/* 全屏按鈕（左上角） */}
             <button
-              className="absolute top-6 left-6 text-gray-500 hover:text-black text-2xl z-20"
+              className="absolute left-6 text-gray-500 hover:text-black text-2xl z-20"
               style={{
                 top: isFullscreen
                   ? "calc(1.5rem + env(safe-area-inset-top, 0px))"
