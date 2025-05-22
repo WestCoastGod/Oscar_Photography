@@ -218,18 +218,17 @@ const Home = () => {
               padding: isFullscreen ? "40px 40px" : "32px 32px",
               paddingTop: isFullscreen
                 ? "calc(40px + env(safe-area-inset-top, 0px))"
-                : undefined, // 只在全屏時加安全區
+                : undefined,
               boxSizing: "border-box",
               display: "flex",
               flexDirection: "column",
-              justifyContent: "center",
             }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* 按鈕區塊，跟隨內容流動 */}
-            <div className="w-full flex flex-row justify-between items-center">
+            <div className="w-full flex flex-row justify-between items-center mb-2">
               <button
-                className="text-gray-500 hover:text-black text-2xl px-2 pt-[30px]"
+                className="text-gray-500 hover:text-black text-2xl px-2"
                 onClick={() => setIsFullscreen((f) => !f)}
                 aria-label="Fullscreen"
                 title={isFullscreen ? "Exit Full Screen" : "Full Screen"}
@@ -257,7 +256,7 @@ const Home = () => {
                 )}
               </button>
               <button
-                className="text-gray-500 hover:text-black text-3xl px-2 pt-[30px]"
+                className="text-gray-500 hover:text-black text-3xl px-2"
                 onClick={() => {
                   setSelected(null);
                   setIsFullscreen(false);
@@ -267,84 +266,72 @@ const Home = () => {
                 ×
               </button>
             </div>
-            {/* 上一張按鈕 */}
-            <button
-              className="absolute left-0 top-1/2 -translate-y-1/2  p-3 text-3xl"
-              style={{ minWidth: 48 }}
-              onClick={() => {
-                const idx = photos.findIndex((p) => p.id === selected.id);
-                if (idx > 0) setSelected(photos[idx - 1]);
-              }}
-              disabled={photos.findIndex((p) => p.id === selected.id) === 0}
-              aria-label="Previous"
-            >
-              ‹
-            </button>
-            {/* 下一張按鈕 */}
-            <button
-              className="absolute right-0 top-1/2 -translate-y-1/2 p-3 text-3xl"
-              style={{ minWidth: 48 }}
-              onClick={() => {
-                const idx = photos.findIndex((p) => p.id === selected.id);
-                if (idx < photos.length - 1) setSelected(photos[idx + 1]);
-              }}
-              disabled={
-                photos.findIndex((p) => p.id === selected.id) ===
-                photos.length - 1
-              }
-              aria-label="Next"
-            >
-              ›
-            </button>
-            {/* 圖片顯示區（四周留白） */}
-            <div className="flex-1 flex flex-col items-center justify-center w-full">
-              <div
-                className="flex flex-col items-center w-full"
-                style={{ gap: "0px" }}
-              >
-                <div
-                  className="flex items-center justify-center w-full"
-                  style={{
-                    padding: isFullscreen ? "32px 0" : "24px 0",
-                    borderRadius: "0.5rem",
-                    width: "100%",
-                    boxSizing: "border-box",
+            {/* 圖片與左右按鈕區塊，flex-1 垂直置中 */}
+            <div className="flex-1 flex flex-col justify-center items-center w-full">
+              <div className="flex flex-row items-center justify-center w-full">
+                {/* 上一張按鈕 */}
+                <button
+                  className="p-3 text-3xl flex-shrink-0 text-gray-500 hover:text-black"
+                  style={{ minWidth: 48 }}
+                  onClick={() => {
+                    const idx = photos.findIndex((p) => p.id === selected.id);
+                    if (idx > 0) setSelected(photos[idx - 1]);
                   }}
+                  disabled={photos.findIndex((p) => p.id === selected.id) === 0}
+                  aria-label="Previous"
                 >
-                  <img
-                    src={selected.src}
-                    alt={selected.title}
-                    className="max-h-full max-w-full mx-auto rounded object-contain"
-                    style={{
-                      display: "block",
-                      margin: "0 auto",
-                      background: "#f8f8f8",
-                      width: "auto",
-                      height: "auto",
-                      maxHeight: isFullscreen
-                        ? "calc(100vh - 220px)"
-                        : "calc(80vh - 220px)",
-                      maxWidth: "100%",
-                    }}
-                  />
-                </div>
-                {/* 標題與描述（非全屏時顯示） */}
-                {!isFullscreen && (
-                  <div className="w-full flex flex-col items-center">
-                    <h2 className="text-xl font-bold mb-2 px-6 w-full text-center">
-                      {selected.title}
-                    </h2>
-                    <div
-                      className="overflow-y-auto px-6 pb-4 w-full text-center"
-                      style={{
-                        maxHeight: "100px",
-                      }}
-                    >
-                      <p>{selected.desc}</p>
-                    </div>
-                  </div>
-                )}
+                  ‹
+                </button>
+                {/* 圖片 */}
+                <img
+                  src={selected.src}
+                  alt={selected.title}
+                  className="max-h-full max-w-full mx-4 rounded object-contain"
+                  style={{
+                    display: "block",
+                    margin: "0 auto",
+                    background: "#f8f8f8",
+                    width: "auto",
+                    height: "auto",
+                    maxHeight: isFullscreen
+                      ? "calc(100vh - 220px)"
+                      : "calc(80vh - 220px)",
+                    maxWidth: "100%",
+                  }}
+                />
+                {/* 下一張按鈕 */}
+                <button
+                  className="p-3 text-3xl flex-shrink-0 text-gray-500 hover:text-black"
+                  style={{ minWidth: 48 }}
+                  onClick={() => {
+                    const idx = photos.findIndex((p) => p.id === selected.id);
+                    if (idx < photos.length - 1) setSelected(photos[idx + 1]);
+                  }}
+                  disabled={
+                    photos.findIndex((p) => p.id === selected.id) ===
+                    photos.length - 1
+                  }
+                  aria-label="Next"
+                >
+                  ›
+                </button>
               </div>
+              {/* 標題與描述（非全屏時顯示） */}
+              {!isFullscreen && (
+                <div className="w-full flex flex-col items-center mt-4">
+                  <h2 className="text-xl font-bold mb-2 px-6 w-full text-center">
+                    {selected.title}
+                  </h2>
+                  <div
+                    className="overflow-y-auto px-6 pb-4 w-full text-center"
+                    style={{
+                      maxHeight: "100px",
+                    }}
+                  >
+                    <p>{selected.desc}</p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
