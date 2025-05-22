@@ -227,25 +227,37 @@ const Home = () => {
             onClick={(e) => e.stopPropagation()}
           >
             {/* 按鈕區塊，跟隨內容流動 */}
-            <div className="w-full flex flex-row justify-between items-center mb-4">
+            <div className="w-full flex flex-row justify-between items-center">
               <button
-                className="text-gray-500 hover:text-black text-2xl"
+                className="text-gray-500 hover:text-black text-2xl px-2 pt-[30px]"
                 onClick={() => setIsFullscreen((f) => !f)}
                 aria-label="Fullscreen"
-                title={isFullscreen ? "退出全屏" : "全屏"}
+                title={isFullscreen ? "Exit Full Screen" : "Full Screen"}
               >
                 {isFullscreen ? (
-                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    width="24"
+                    height="24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <path d="M9 3H5a2 2 0 0 0-2 2v4m0 6v4a2 2 0 0 0 2 2h4m6-18h4a2 2 0 0 1 2 2v4m0 6v4a2 2 0 0 1-2 2h-4" />
                   </svg>
                 ) : (
-                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    width="24"
+                    height="24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     <path d="M4 4h6M4 4v6M20 4h-6M20 4v6M4 20h6M4 20v-6M20 20h-6M20 20v-6" />
                   </svg>
                 )}
               </button>
               <button
-                className="text-gray-500 hover:text-black text-3xl"
+                className="text-gray-500 hover:text-black text-3xl px-2 pt-[30px]"
                 onClick={() => {
                   setSelected(null);
                   setIsFullscreen(false);
