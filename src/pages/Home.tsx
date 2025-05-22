@@ -228,7 +228,12 @@ const Home = () => {
           >
             {/* 關閉按鈕（右上角） */}
             <button
-              className="absolute top-6 right-6 text-gray-500 hover:text-black text-2xl z-20"
+              className="absolute top-4 right-6 text-gray-500 hover:text-black text-3xl z-20"
+              style={{
+                top: isFullscreen
+                  ? "calc(1.5rem + env(safe-area-inset-top, 0px))"
+                  : "1.5rem",
+              }}
               onClick={() => {
                 setSelected(null);
                 setIsFullscreen(false);
@@ -240,6 +245,11 @@ const Home = () => {
             {/* 全屏按鈕（左上角） */}
             <button
               className="absolute top-6 left-6 text-gray-500 hover:text-black text-2xl z-20"
+              style={{
+                top: isFullscreen
+                  ? "calc(1.5rem + env(safe-area-inset-top, 0px))"
+                  : "1.5rem",
+              }}
               onClick={() => setIsFullscreen((f) => !f)}
               aria-label="Fullscreen"
               title={isFullscreen ? "退出全屏" : "全屏"}
