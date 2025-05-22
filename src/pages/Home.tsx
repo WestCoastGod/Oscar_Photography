@@ -226,56 +226,35 @@ const Home = () => {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* 關閉按鈕（右上角） */}
-            <button
-              className="absolute right-6 text-gray-500 hover:text-black text-2xl z-20"
-              style={{
-                top: isFullscreen
-                  ? "calc(1.5rem + env(safe-area-inset-top, 0px))"
-                  : "1.5rem",
-              }}
-              onClick={() => {
-                setSelected(null);
-                setIsFullscreen(false);
-              }}
-              aria-label="Close"
-            >
-              ×
-            </button>
-            {/* 全屏按鈕（左上角） */}
-            <button
-              className="absolute left-6 text-gray-500 hover:text-black text-2xl z-20"
-              style={{
-                top: isFullscreen
-                  ? "calc(1.5rem + env(safe-area-inset-top, 0px))"
-                  : "1.5rem",
-              }}
-              onClick={() => setIsFullscreen((f) => !f)}
-              aria-label="Fullscreen"
-              title={isFullscreen ? "退出全屏" : "全屏"}
-            >
-              {isFullscreen ? (
-                <svg
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="M9 3H5a2 2 0 0 0-2 2v4m0 6v4a2 2 0 0 0 2 2h4m6-18h4a2 2 0 0 1 2 2v4m0 6v4a2 2 0 0 1-2 2h-4" />
-                </svg>
-              ) : (
-                <svg
-                  width="24"
-                  height="24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="M4 4h6M4 4v6M20 4h-6M20 4v6M4 20h6M4 20v-6M20 20h-6M20 20v-6" />
-                </svg>
-              )}
-            </button>
+            {/* 按鈕區塊，跟隨內容流動 */}
+            <div className="w-full flex flex-row justify-between items-center mb-4">
+              <button
+                className="text-gray-500 hover:text-black text-2xl"
+                onClick={() => setIsFullscreen((f) => !f)}
+                aria-label="Fullscreen"
+                title={isFullscreen ? "退出全屏" : "全屏"}
+              >
+                {isFullscreen ? (
+                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M9 3H5a2 2 0 0 0-2 2v4m0 6v4a2 2 0 0 0 2 2h4m6-18h4a2 2 0 0 1 2 2v4m0 6v4a2 2 0 0 1-2 2h-4" />
+                  </svg>
+                ) : (
+                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 4h6M4 4v6M20 4h-6M20 4v6M4 20h6M4 20v-6M20 20h-6M20 20v-6" />
+                  </svg>
+                )}
+              </button>
+              <button
+                className="text-gray-500 hover:text-black text-3xl"
+                onClick={() => {
+                  setSelected(null);
+                  setIsFullscreen(false);
+                }}
+                aria-label="Close"
+              >
+                ×
+              </button>
+            </div>
             {/* 上一張按鈕 */}
             <button
               className="absolute left-0 top-1/2 -translate-y-1/2  p-3 text-3xl"
@@ -306,7 +285,6 @@ const Home = () => {
               ›
             </button>
             {/* 圖片顯示區（四周留白） */}
-            {/* Modal 內容 */}
             <div className="flex-1 flex flex-col items-center justify-center w-full">
               <div
                 className="flex flex-col items-center w-full"
