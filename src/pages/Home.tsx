@@ -228,7 +228,7 @@ const Home = () => {
             {/* 按鈕區塊，跟隨內容流動 */}
             <div className="w-full flex flex-row justify-between items-center mb-2">
               <button
-                className="text-gray-500 hover:text-black text-2xl px-2"
+                className="text-gray-500 hover:text-black text-2xl px-2 pt-10"
                 onClick={() => setIsFullscreen((f) => !f)}
                 aria-label="Fullscreen"
                 title={isFullscreen ? "Exit Full Screen" : "Full Screen"}
@@ -256,7 +256,7 @@ const Home = () => {
                 )}
               </button>
               <button
-                className="text-gray-500 hover:text-black text-3xl px-2"
+                className="text-gray-500 hover:text-black text-3xl px-2 pt-8"
                 onClick={() => {
                   setSelected(null);
                   setIsFullscreen(false);
@@ -268,7 +268,12 @@ const Home = () => {
             </div>
             {/* 圖片與左右按鈕區塊，flex-1 垂直置中 */}
             <div className="flex-1 flex flex-col justify-center items-center w-full">
-              <div className="flex flex-row items-center justify-center w-full">
+              <div
+                className={`flex flex-row items-center justify-center w-full ${
+                  isFullscreen ? "" : ""
+                }`}
+                style={isFullscreen ? { height: "100%" } : {}}
+              >
                 {/* 上一張按鈕 */}
                 <button
                   className="p-3 text-3xl flex-shrink-0 text-gray-500 hover:text-black"
