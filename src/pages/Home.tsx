@@ -216,9 +216,6 @@ const Home = () => {
               transition: "all 0.3s",
               boxShadow: isFullscreen ? "none" : undefined,
               padding: isFullscreen ? "40px 40px" : "32px 32px",
-              paddingTop: isFullscreen
-                ? "calc(40px + env(safe-area-inset-top, 0px))"
-                : undefined,
               boxSizing: "border-box",
               display: "flex",
               flexDirection: "column",
