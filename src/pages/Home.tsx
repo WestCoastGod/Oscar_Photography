@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 // 原始照片列表
 const originalPhotos = [
@@ -143,7 +143,8 @@ const originalPhotos = [
   { id: 70, src: "/images/photos/鼓樓大街.jpg", title: "Drum Tower Street" },
 ];
 
-// 洗牌函數
+{
+  /*// 洗牌函數
 function shuffleArray<T>(array: T[]): T[] {
   const arr = array.slice();
   for (let i = arr.length - 1; i > 0; i--) {
@@ -151,10 +152,11 @@ function shuffleArray<T>(array: T[]): T[] {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   return arr;
+}*/
 }
 
 const Home = () => {
-  const photos = useMemo(() => shuffleArray(originalPhotos), []);
+  const photos = originalPhotos;
   const [selected, setSelected] = useState<null | {
     id: number;
     src: string;
@@ -162,6 +164,7 @@ const Home = () => {
     desc?: string;
   }>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(0);
 
   // 控制全屏時 body 不可滾動
   useEffect(() => {
@@ -177,23 +180,31 @@ const Home = () => {
   }, [isFullscreen]);
 
   return (
-    <div className="container max-w-[90vw] mx-auto py-8">
-      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2">
-        {photos.map((photo) => (
-          <div
-            key={photo.id}
-            className="group relative overflow-hidden shadow-lg cursor-pointer mb-2"
-            onClick={() => setSelected(photo)}
-          >
-            <img
-              src={photo.src}
-              alt={photo.title}
-              className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-white bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center"></div>
-          </div>
-        ))}
-      </div>
+    <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2">
+      {photos.map((photo, idx) => (
+        <div
+          key={photo.id}
+          className={`group relative overflow-hidden shadow-lg cursor-pointer mb-2 transition-opacity duration-700 ${
+            idx < visibleCount ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={() => setSelected(photo)}
+        >
+          <img
+            src={photo.src}
+            alt={photo.title}
+            className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            onLoad={() => {
+              // 只允許下一張顯示
+              setVisibleCount((c) => Math.max(c, idx + 1));
+            }}
+            onError={() => {
+              setVisibleCount((c) => Math.max(c, idx + 1));
+            }}
+            style={{ transition: "opacity 0.7s" }}
+          />
+          <div className="absolute inset-0 bg-white bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center"></div>
+        </div>
+      ))}
 
       {/* Modal 放大圖與介紹 */}
       {selected && (
