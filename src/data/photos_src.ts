@@ -1,8 +1,8 @@
 const originalPhotos = [
   {
     id: 1,
-    src: "/images/photos/athony.jpg",
-    title: "Athony",
+    src: "/images/photos/頤和園日落.jpg",
+    title: "Summer Palace Sunset",desc:"The old kings saw it too."
   },
   {
     id: 2,
@@ -14,86 +14,85 @@ const originalPhotos = [
     id: 3,
     src: "/images/photos/Berlin Tower.JPG",
     title: "Berlin Tower",
-    desc: "It witnessed the history of Berlin. The part when Berlin was divided into East and West, and reunited.",
+    desc: "It saw Berlin being divided into East and West, and reunited.",
   },
   {
     id: 4,
     src: "/images/photos/berlin_riverside.jpg",
-    title: "Berlin Riverside",
+    title: "Berlin Riverside",desc:"Imagine you are them and there. Sweet and peaceful.",
   },
   {
     id: 5,
     src: "/images/photos/berlin_stranger.jpg",
-    title: "Berlin Stranger",
+    title: "Berlin Pedestrian", desc:"BOOM! Hell yeah!"
   },
   {
     id: 6,
     src: "/images/photos/Berlin_Zoo_Bird.JPG",
     title: "Berlin Zoo Bird",
-    desc: "I don't know what kind it is, it's just cute.",
+    desc: "Do you know what is my name?",
   },
-  { id: 7, src: "/images/photos/boat.JPG", title: "Boat" },
+  { id: 7, src: "/images/photos/boat.JPG", title: "Boat" , desc:"A rowing boat."},
   {
     id: 8,
     src: "/images/photos/Btyan Steven Monge Serrano.jpg",
-    title: "Btyan Steven Monge Serrano",
+    title: "Bryan", desc:"My bestie from Flushing, NYC. 他超棒的！"
   },
   {
     id: 9,
     src: "/images/photos/changbaishan.jpg",
-    title: "Changbaishan",
+    title: "Changbai Mountain / Paektu Mountain", desc:"Astonishing view."
   },
   {
     id: 10,
     src: "/images/photos/crack_shadow.jpg",
-    title: "Crack Shadow",
+    title: "Crack Shadow", desc:"Time shows on a palace wall."
   },
   {
     id: 11,
     src: "/images/photos/cwc_star.jpg",
-    title: "CWC Star",
+    title: "CWC Stars", desc:"Starry starry night."
   },
   {
     id: 12,
     src: "/images/photos/cwc_startrail.jpg",
-    title: "CWC Startrail",
+    title: "CWC Startrail", desc:"Starry starry night. Do not blink your eyes."
   },
   {
     id: 13,
     src: "/images/photos/drink.JPG",
-    title: "Drink",
+    title: "Drink", desc:"I am not going to tell you that these are ice cubes."
   },
   {
     id: 14,
     src: "/images/photos/Electrical_Scooter.jpg",
-    title: "Electrical Scooter",
+    title: "Electrical Scooter", desc:"Visualization of relative motion."
   },
   {
     id: 15,
     src: "/images/photos/fatfat2.jpg",
-    title: "Fatfat2",
+    title: "Daniel",desc:"He is very handsome (here is star eye emoji)."
   },
   {
     id: 16,
     src: "/images/photos/fengtian.jpg",
-    title: "Fengtian",
+    title: "Nathan", desc:"I f**king like your photo."
   },
-  { id: 17, src: "/images/photos/Firework.jpg", title: "Firework" },
+  { id: 17, src: "/images/photos/Firework.jpg", title: "Fireworks", desc:"Wowwwww~ But I see more people than fireworks." },
   {
     id: 18,
     src: "/images/photos/forbidden_city_wall.jpg",
-    title: "Forbidden City Wall",
+    title: "Forbidden City Wall", desc:"Question: How many colors are there?"
   },
-  { id: 19, src: "/images/photos/fountain.jpg", title: "Fountain" },
-  { id: 20, src: "/images/photos/geneve_roof.jpg", title: "Geneva Roof" },
+  { id: 19, src: "/images/photos/fountain.jpg", title: "Jet d'Eau de Genève", desc:"Pump Pump Pump Pump Pump Pump Pump Pump" },
+  { id: 20, src: "/images/photos/geneve_roof.jpg", title: "Geneva Roof", desc:"Salute to Switzerland" },
   { id: 21, src: "/images/photos/Genève.jpg", title: "Geneva" },
-  { id: 22, src: "/images/photos/genève_church.jpg", title: "Geneva Church" },
   {
     id: 23,
     src: "/images/photos/genève_seashore.jpg",
     title: "Geneva Seashore",
   },
-  { id: 24, src: "/images/photos/genève_wheel.jpg", title: "Geneva Wheel" },
+
   { id: 25, src: "/images/photos/Heavy Rain.jpg", title: "Heavy Rain" },
   { id: 26, src: "/images/photos/Island.jpg", title: "Island" },
   {
@@ -198,8 +197,8 @@ const originalPhotos = [
   { id: 74, src: "/images/photos/静安寺.JPG", title: "Jing'an Temple" },
   {
     id: 75,
-    src: "/images/photos/頤和園日落.jpg",
-    title: "Summer Palace Sunset",
+    src: "/images/photos/athony.jpg",
+    title: "Athony", desc: "雄爺"
   },
   { id: 76, src: "/images/photos/鴨子與落日.jpg", title: "Duck and Sunset" },
   { id: 77, src: "/images/photos/鸽子.jpg", title: "Pigeon" },
