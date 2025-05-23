@@ -326,7 +326,7 @@ const Home = () => {
                     {selected.title}
                   </h2>
                   <div
-                    className="overflow-y-auto px-6 pb-4 w-full text-center"
+                    className="overflow-y-auto px-6 pb-4 w-full text-left"
                     style={{
                       maxHeight: "100px",
                     }}
