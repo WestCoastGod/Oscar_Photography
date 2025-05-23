@@ -1,7 +1,7 @@
 # Oscar Photography
 
 Link to the website: https://oscar-photography.vercel.app/
-
+  ![HiFi Website Design](public/images/hifi_web.jpg)
 # Development Logs
 
 ## 23/05/2025
