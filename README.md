@@ -27,4 +27,4 @@ Link to the website: https://oscar-photography.vercel.app/
 - Add photos to Home page, adapts Waterfall Design
 - Deploy website at Vercel
 - Lo-Fi Website Design
-  ![LoFi Website Design](public\images\lofi_web.jpg)
+  ![LoFi Website Design](images/lofi_web.jpg)
