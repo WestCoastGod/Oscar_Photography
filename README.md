@@ -5,6 +5,11 @@ Link to the website: https://oscar-photography.vercel.app/
 
 # Development Logs
 
+## 24/05/2025
+
+- Add more photos and descriptions
+- Cancel enlargment window scroller
+
 ## 23/05/2025
 
 - Enhance UI fluency, now Home page photos fade in after fully loading
