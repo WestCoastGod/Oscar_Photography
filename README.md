@@ -1,5 +1,27 @@
 # Oscar_Photography
 
-This is my project to create a website where I can share my photography works with my friends.
-
 Link to the website: https://oscar-photography.vercel.app/
+
+# Develope Log
+
+## 23/05/2025
+
+- Enhance UI fluency, now Home page photos fade in after fully loading
+- Adjust photo description alignment to the left
+
+## 22/05/2025
+
+- Add full screen viewing photo mode, previous photo and next photo buttons
+
+## 21/05/2025
+
+- Add photo enlargement window
+- Enhance fluency of Welcome page shooting stars
+- Add show and hide button for sidebar
+
+## 20/05/2025
+
+- Improve old website project from 2023 summer
+- Add Welcome, Home, About me, and Contact page, with last two as drafts
+- Enhance shooting star animation, add greetings and let's go button
+- Add photos to Home page, adapts Waterfall Design
