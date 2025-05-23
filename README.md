@@ -1,7 +1,8 @@
 # Oscar Photography
 
 Link to the website: https://oscar-photography.vercel.app/
-  ![HiFi Website Design](public/images/hifi_web.jpg)
+![HiFi Website Design](public/images/hifi_web.jpg)
+
 # Development Logs
 
 ## 23/05/2025
@@ -12,6 +13,7 @@ Link to the website: https://oscar-photography.vercel.app/
 ## 22/05/2025
 
 - Add full screen viewing photo mode, previous photo and next photo buttons
+  ![LoFi Website Design](public/images/photo_viewing_windows.jpg)
 
 ## 21/05/2025
 
