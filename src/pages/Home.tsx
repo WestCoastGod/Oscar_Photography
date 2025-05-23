@@ -194,15 +194,8 @@ const Home = () => {
                   <h2 className="text-xl font-bold mb-2 px-6 w-full text-center">
                     {selected.title}
                   </h2>
-                  <div
-                    className="overflow-y-auto pl-16 pr-8 pb-4 text-left mx-auto"
-                    style={{
-                      maxHeight: "100px",
-                      maxWidth: "850px", // 你可以調整這個值
-                      scrollbarGutter: "stable", // 讓滾動條預留空間
-                    }}
-                  >
-                    <p>{selected.desc}</p>
+                  <div className="pb-4 mx-auto px-4 max-w-full sm:max-w-lg inline-block">
+                    <p className="text-justify">{selected.desc}</p>
                   </div>
                 </div>
               )}

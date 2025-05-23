@@ -8,7 +8,7 @@ const originalPhotos = [
     id: 2,
     src: "/images/photos/beijing_sky.jpg",
     title: "Beijing Sky",
-    desc: "That was a peaceful afternoon in Beijing. The sun was going down, and the sky was painted with beautiful colors.",
+    desc: "That was a peaceful afternoon in Beijing.",
   },
   {
     id: 3,
