@@ -1,8 +1,8 @@
-# Oscar_Photography
+# Oscar Photography
 
 Link to the website: https://oscar-photography.vercel.app/
 
-# Develope Log
+# Development Logs
 
 ## 23/05/2025
 
@@ -25,3 +25,6 @@ Link to the website: https://oscar-photography.vercel.app/
 - Add Welcome, Home, About me, and Contact page, with last two as drafts
 - Enhance shooting star animation, add greetings and let's go button
 - Add photos to Home page, adapts Waterfall Design
+- Deploy website at Vercel
+- Lo-Fi Website Design
+  ![LoFi Website Design](public\images\lofi_web.jpg)
