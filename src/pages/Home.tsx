@@ -120,7 +120,7 @@ const Home = () => {
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <aside className="w-22 flex-shrink-0 bg-white">
-        {/* I can add extra contents */}
+        {/* I can have extra content here */}
       </aside>
       {/* Main content */}
       <main className="flex-1 px-4 py-8">
