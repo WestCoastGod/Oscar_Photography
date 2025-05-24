@@ -15,10 +15,6 @@ const Home = () => {
   const [previewLoaded, setPreviewLoaded] = useState<boolean[]>(() =>
     Array(photos.length).fill(false)
   );
-  // Track loaded state for each full photo
-  const [fullLoaded, setFullLoaded] = useState<boolean[]>(() =>
-    Array(photos.length).fill(false)
-  );
   // Track if all previews are loaded
   const [allPreviewsLoaded, setAllPreviewsLoaded] = useState(false);
 
@@ -30,7 +26,6 @@ const Home = () => {
   // Reset loaded states on photo count change
   useEffect(() => {
     setPreviewLoaded(Array(photos.length).fill(false));
-    setFullLoaded(Array(photos.length).fill(false));
     setAllPreviewsLoaded(false);
   }, [photos.length]);
 
@@ -88,22 +83,6 @@ const Home = () => {
               src={photo.src}
               alt=""
               style={{ display: "none" }}
-              onLoad={() => {
-                setFullLoaded((prev) => {
-                  if (prev[idx]) return prev;
-                  const arr = [...prev];
-                  arr[idx] = true;
-                  return arr;
-                });
-              }}
-              onError={() => {
-                setFullLoaded((prev) => {
-                  if (prev[idx]) return prev;
-                  const arr = [...prev];
-                  arr[idx] = true;
-                  return arr;
-                });
-              }}
             />
           )}
           <div className="absolute inset-0 bg-white bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center"></div>
