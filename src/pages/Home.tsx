@@ -90,7 +90,10 @@ const Home = () => {
   }, [isFullscreen]);
 
   return (
-    <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2">
+    <div
+      className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2"
+      style={{ minHeight: 800 }} // Helps Safari layout bug
+    >
       {photos.map((photo, idx) => {
         // Find which visual row this photo belongs to
         let rowIdx = -1;
@@ -111,7 +114,11 @@ const Home = () => {
                 ? "opacity-100"
                 : "opacity-0"
             }`}
-            style={{ breakInside: "avoid" }}
+            style={{
+              breakInside: "avoid",
+              willChange: "opacity, transform",
+              contain: "layout",
+            }}
             onClick={() => setSelected(photo)}
           >
             <img
