@@ -7,19 +7,20 @@ const Home = () => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const columnWrapperRef = useRef<HTMLDivElement>(null);
 
-  // 简化加载状态管理
+  // 用 Set 追蹤已載入的圖片 index
   const [loadedIndexes, setLoadedIndexes] = useState<Set<number>>(new Set());
 
-  // Safari 强制布局重排
+  // Safari 強制重排
   const triggerSafariReflow = () => {
     if (columnWrapperRef.current) {
       columnWrapperRef.current.style.display = "none";
+      // 強制 reflow
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       columnWrapperRef.current.offsetHeight;
       columnWrapperRef.current.style.display = "block";
     }
   };
 
-  // 初始化布局
   useEffect(() => {
     const timer = setTimeout(triggerSafariReflow, 300);
     window.addEventListener("resize", triggerSafariReflow);
@@ -29,14 +30,21 @@ const Home = () => {
     };
   }, []);
 
-  // 图片加载完成处理
+  // 單張圖片載入完成
   const handleImageLoad = (idx: number) => {
-    setLoadedIndexes((prev) => new Set([...prev, idx]));
+    setLoadedIndexes((prev) => {
+      const next = new Set(prev);
+      next.add(idx);
+      return next;
+    });
     triggerSafariReflow();
   };
 
   return (
     <div className="flex min-h-screen">
+      {/* Sidebar */}
+      <aside className="w-22 flex-shrink-0 bg-white">{/* ... */}</aside>
+      {/* Main content */}
       <main className="flex-1 px-4 py-8">
         <div
           ref={columnWrapperRef}
@@ -63,7 +71,7 @@ const Home = () => {
             </div>
           ))}
 
-          {/* 保持原有Modal实现 */}
+          {/* Modal 放大圖與介紹 */}
           {selected && (
             <div
               className={`fixed inset-0 flex items-center justify-center z-50 transition-colors duration-300 ${
