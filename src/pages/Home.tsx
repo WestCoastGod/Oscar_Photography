@@ -123,7 +123,7 @@ const Home = () => {
         {/* I can have extra content here */}
       </aside>
       {/* Main content */}
-      <main className="flex-1 px-4 py-8">
+      <main className="flex-1 px-4 py-2">
         <div
           className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2"
           style={{ minHeight: 800 }}
