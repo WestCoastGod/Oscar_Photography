@@ -134,7 +134,6 @@ const Home = () => {
                 : "opacity-0"
             }`}
             style={{
-              breakInside: "avoid",
               willChange: "opacity, transform",
               contain: "layout",
             }}
