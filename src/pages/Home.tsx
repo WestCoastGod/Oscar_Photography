@@ -10,9 +10,6 @@ const Home = () => {
   const [loaded, setLoaded] = useState<boolean[]>(() =>
     Array(photos.length).fill(false)
   );
-  const [previewLoaded, setPreviewLoaded] = useState<boolean[]>(() =>
-    Array(photos.length).fill(false)
-  );
   const [originalLoaded, setOriginalLoaded] = useState<boolean[]>(() =>
     Array(photos.length).fill(false)
   );
@@ -76,12 +73,6 @@ const Home = () => {
   // 圖片 preview 載入
   const handlePreviewLoad = (idx: number) => {
     setLoaded((prev) => {
-      if (prev[idx]) return prev;
-      const arr = [...prev];
-      arr[idx] = true;
-      return arr;
-    });
-    setPreviewLoaded((prev) => {
       if (prev[idx]) return prev;
       const arr = [...prev];
       arr[idx] = true;
