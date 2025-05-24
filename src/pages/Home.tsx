@@ -113,6 +113,13 @@ const Home = () => {
     if (allPreviewsLoaded) {
       document.body.offsetHeight;
       window.dispatchEvent(new Event("resize"));
+      // Extra Safari force repaint
+      setTimeout(() => {
+        document.body.style.display = "none";
+        // @ts-ignore
+        document.body.offsetHeight;
+        document.body.style.display = "";
+      }, 50);
     }
   }, [allPreviewsLoaded]);
 
@@ -143,7 +150,7 @@ const Home = () => {
                 ref={(el) => {
                   photoRefs.current[idx] = el;
                 }}
-                className={`group relative overflow-hidden shadow-lg cursor-pointer mb-2 transition-opacity duration-700 ${
+                className={`group relative shadow-lg cursor-pointer mb-2 transition-opacity duration-700 ${
                   rowIdx !== -1 && rowIdx < visibleRows
                     ? "opacity-100"
                     : "opacity-0"
@@ -154,6 +161,7 @@ const Home = () => {
                   willChange: "opacity, transform",
                   contain: "layout",
                   transform: "translateZ(0)",
+                  background: "#fff",
                 }}
                 onClick={() => setSelected(photo)}
               >
