@@ -1,15 +1,3 @@
-{
-  /*// 洗牌函數
-function shuffleArray<T>(array: T[]): T[] {
-  const arr = array.slice();
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}*/
-}
-
 import { useState, useEffect, useRef } from "react";
 import originalPhotos from "../data/photos_src";
 
@@ -130,7 +118,7 @@ const Home = () => {
               ref={(el) => {
                 imgRefs.current[idx] = el;
               }}
-              src={photo.src}
+              src={photo.low} // Use low quality image for preview
               alt={photo.title}
               className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
               onLoad={() => {
