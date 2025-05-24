@@ -76,7 +76,7 @@ const originalPhotos = [
   {
     id: 16,
     src: "/images/photos/fengtian.jpg",
-    title: "Nathan", desc:"I f**king like your photo."
+    title: "Nathan", desc:"Those with resolve."
   },
   { id: 17, src: "/images/photos/Firework.jpg", title: "Fireworks", desc:"Wowwwww~ But I see more people than fireworks." },
   {
@@ -86,11 +86,11 @@ const originalPhotos = [
   },
   { id: 19, src: "/images/photos/fountain.jpg", title: "Jet d'Eau de Genève", desc:"Pump Pump Pump Pump Pump Pump Pump Pump" },
   { id: 20, src: "/images/photos/geneve_roof.jpg", title: "Geneva Roof", desc:"Salute to Switzerland" },
-  { id: 21, src: "/images/photos/Genève.jpg", title: "Geneva" },
+  { id: 21, src: "/images/photos/Genève.jpg", title: "Geneva", desc:"It's a lake, as beautiful as the sea." },
   {
     id: 23,
     src: "/images/photos/genève_seashore.jpg",
-    title: "Geneva Seashore",
+    title: "Summer", desc:""
   },
 
   { id: 25, src: "/images/photos/Heavy Rain.jpg", title: "Heavy Rain" },
