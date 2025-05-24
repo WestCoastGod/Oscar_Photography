@@ -113,13 +113,6 @@ const Home = () => {
     if (allPreviewsLoaded) {
       document.body.offsetHeight;
       window.dispatchEvent(new Event("resize"));
-      // Extra Safari force repaint
-      setTimeout(() => {
-        document.body.style.display = "none";
-        // @ts-ignore
-        document.body.offsetHeight;
-        document.body.style.display = "";
-      }, 50);
     }
   }, [allPreviewsLoaded]);
 
@@ -144,24 +137,23 @@ const Home = () => {
                 break;
               }
             }
+            // Safari workaround: use display none/block instead of opacity for reveal
             return (
               <div
                 key={photo.id}
                 ref={(el) => {
                   photoRefs.current[idx] = el;
                 }}
-                className={`group relative shadow-lg cursor-pointer mb-2 transition-opacity duration-700 ${
-                  rowIdx !== -1 && rowIdx < visibleRows
-                    ? "opacity-100"
-                    : "opacity-0"
-                }`}
+                className={`group relative shadow-lg cursor-pointer mb-2 transition-transform duration-700`}
                 style={{
                   breakInside: "avoid",
                   minHeight: 80,
-                  willChange: "opacity, transform",
+                  willChange: "transform",
                   contain: "layout",
                   transform: "translateZ(0)",
                   background: "#fff",
+                  display:
+                    rowIdx !== -1 && rowIdx < visibleRows ? "block" : "none",
                 }}
                 onClick={() => setSelected(photo)}
               >
