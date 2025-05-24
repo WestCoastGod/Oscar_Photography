@@ -137,23 +137,22 @@ const Home = () => {
                 break;
               }
             }
-            // Safari fix: use display none/block instead of opacity/overflow-hidden
             return (
               <div
                 key={photo.id}
                 ref={(el) => {
                   photoRefs.current[idx] = el;
                 }}
-                className="group relative shadow-lg cursor-pointer mb-2"
+                className={`group relative overflow-hidden shadow-lg cursor-pointer mb-2 transition-opacity duration-700 ${
+                  rowIdx !== -1 && rowIdx < visibleRows
+                    ? "opacity-100"
+                    : "opacity-0"
+                }`}
                 style={{
                   breakInside: "avoid",
                   minHeight: 80,
+                  willChange: "opacity, transform",
                   contain: "layout",
-                  background: "#fff",
-                  display:
-                    rowIdx !== -1 && rowIdx < visibleRows ? "block" : "none",
-                  // @ts-ignore
-                  WebkitColumnBreakInside: "avoid",
                 }}
                 onClick={() => setSelected(photo)}
               >
