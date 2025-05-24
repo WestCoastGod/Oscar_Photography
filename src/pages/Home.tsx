@@ -83,7 +83,7 @@ const Home = () => {
     for (let rowIdx = 0; rowIdx < rowMap.length; rowIdx++) {
       const allLoaded = rowMap[rowIdx].every((idx) => loaded[idx]);
       if (allLoaded && visibleRows === rowIdx) {
-        setTimeout(() => setVisibleRows(rowIdx + 1), 30); // fade in next row
+        setTimeout(() => setVisibleRows(rowIdx + 1), 60); // fade in next row
         break;
       }
     }
