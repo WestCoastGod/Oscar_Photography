@@ -55,7 +55,7 @@ const Home = () => {
         .map(([, arr]) => arr);
       setRowMap(sortedRows);
     }
-    const timer = setTimeout(updateRowMap, 100); // 增加延時解決 Safari 渲染問題
+    const timer = setTimeout(updateRowMap, 30);
     window.addEventListener("resize", updateRowMap);
     return () => {
       clearTimeout(timer);
@@ -63,33 +63,34 @@ const Home = () => {
     };
   }, [photos.length]);
 
-  // On mount, check for cached images
+  // On mount, check for cached images and mark as loaded if complete
   useEffect(() => {
     imgRefs.current.forEach((img, idx) => {
       if (img && img.complete && !loaded[idx]) {
-        setLoaded((prev) => [
-          ...prev.slice(0, idx),
-          true,
-          ...prev.slice(idx + 1),
-        ]);
+        setLoaded((prev) => {
+          const arr = [...prev];
+          arr[idx] = true;
+          return arr;
+        });
       }
       if (img && img.complete && !previewLoaded[idx]) {
-        setPreviewLoaded((prev) => [
-          ...prev.slice(0, idx),
-          true,
-          ...prev.slice(idx + 1),
-        ]);
+        setPreviewLoaded((prev) => {
+          const arr = [...prev];
+          arr[idx] = true;
+          return arr;
+        });
       }
     });
+    // eslint-disable-next-line
   }, [rowMap.length]);
 
-  // Row loading logic
+  // When a row's all images are loaded, show that row and prepare for next
   useEffect(() => {
     if (!rowMap.length) return;
     for (let rowIdx = 0; rowIdx < rowMap.length; rowIdx++) {
       const allLoaded = rowMap[rowIdx].every((idx) => loaded[idx]);
       if (allLoaded && visibleRows === rowIdx) {
-        setTimeout(() => setVisibleRows(rowIdx + 1), 60);
+        setTimeout(() => setVisibleRows(rowIdx + 1), 60); // fade in next row
         break;
       }
     }
@@ -97,94 +98,124 @@ const Home = () => {
 
   // Prevent scroll when fullscreen
   useEffect(() => {
-    document.body.style.overflow = isFullscreen ? "hidden" : "";
+    if (isFullscreen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
     return () => {
       document.body.style.overflow = "";
     };
   }, [isFullscreen]);
 
-  // Safari repaint fix
+  // Force repaint after all previews loaded (Safari fix)
   useEffect(() => {
     if (allPreviewsLoaded) {
-      document.body.offsetHeight; // Force reflow
+      document.body.offsetHeight;
       window.dispatchEvent(new Event("resize"));
     }
   }, [allPreviewsLoaded]);
 
   return (
     <div className="flex min-h-screen">
-      <aside className="w-22 flex-shrink-0 bg-white" />
-
+      {/* Sidebar */}
+      <aside className="w-22 flex-shrink-0 bg-white">
+        {/* I can add extra contents */}
+      </aside>
+      {/* Main content */}
       <main className="flex-1 px-4 py-8">
         <div
           className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2"
-          style={{
-            minHeight: 800,
-            display: "block", // 修正 Safari 列佈局
-          }}
+          style={{ minHeight: 800 }}
         >
           {photos.map((photo, idx) => {
-            const rowIdx = rowMap.findIndex((row) => row.includes(idx));
-
+            // Find which visual row this photo belongs to
+            let rowIdx = -1;
+            for (let i = 0; i < rowMap.length; i++) {
+              if (rowMap[i].includes(idx)) {
+                rowIdx = i;
+                break;
+              }
+            }
+            // Safari fix: use display none/block instead of opacity/overflow-hidden
             return (
               <div
                 key={photo.id}
-                ref={(el) => (photoRefs.current[idx] = el)}
-                className={`group relative overflow-hidden shadow-lg cursor-pointer mb-2 transition-opacity duration-700 ${
-                  rowIdx !== -1 && rowIdx < visibleRows
-                    ? "opacity-100"
-                    : "opacity-0"
-                }`}
+                ref={(el) => {
+                  photoRefs.current[idx] = el;
+                }}
+                className="group relative shadow-lg cursor-pointer mb-2"
                 style={{
                   breakInside: "avoid",
-                  WebkitColumnBreakInside: "avoid", // Safari 專用修復
-                  minHeight: "80px",
-                  height: "auto",
+                  minHeight: 80,
                   contain: "layout",
+                  background: "#fff",
+                  display:
+                    rowIdx !== -1 && rowIdx < visibleRows ? "block" : "none",
+                  // @ts-ignore
+                  WebkitColumnBreakInside: "avoid",
                 }}
                 onClick={() => setSelected(photo)}
               >
+                {/* Preview (low quality) image */}
                 <img
-                  ref={(el) => (imgRefs.current[idx] = el)}
+                  ref={(el) => {
+                    imgRefs.current[idx] = el;
+                  }}
                   src={photo.low}
                   alt={photo.title}
                   className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   onLoad={() => {
-                    setLoaded((prev) => updateState(prev, idx));
-                    setPreviewLoaded((prev) => updateState(prev, idx));
+                    setLoaded((prev) => {
+                      if (prev[idx]) return prev;
+                      const arr = [...prev];
+                      arr[idx] = true;
+                      return arr;
+                    });
+                    setPreviewLoaded((prev) => {
+                      if (prev[idx]) return prev;
+                      const arr = [...prev];
+                      arr[idx] = true;
+                      return arr;
+                    });
                   }}
                   onError={() => {
-                    setLoaded((prev) => updateState(prev, idx));
-                    setPreviewLoaded((prev) => updateState(prev, idx));
+                    setLoaded((prev) => {
+                      if (prev[idx]) return prev;
+                      const arr = [...prev];
+                      arr[idx] = true;
+                      return arr;
+                    });
+                    setPreviewLoaded((prev) => {
+                      if (prev[idx]) return prev;
+                      const arr = [...prev];
+                      arr[idx] = true;
+                      return arr;
+                    });
                   }}
-                  style={{
-                    width: "100%",
-                    display: "block",
-                    height: "auto", // 明確高度設定
-                  }}
+                  style={{ width: "100%", display: "block" }}
                 />
-
+                {/* Preload full image (hidden) after all previews loaded */}
                 {allPreviewsLoaded && (
                   <img
-                    ref={(el) => (fullImgRefs.current[idx] = el)}
+                    ref={(el) => {
+                      fullImgRefs.current[idx] = el;
+                    }}
                     src={photo.src}
                     alt=""
-                    style={{
-                      display: "none",
-                      width: `${photo.width}px`, // 明確尺寸
-                      height: `${photo.height}px`, // 解決 Safari 佈局錯誤
-                    }}
+                    style={{ display: "none" }}
                   />
                 )}
+                <div className="absolute inset-0 bg-white bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center"></div>
               </div>
             );
           })}
 
-          {/* Modal 部分保持不變 */}
+          {/* Modal 放大圖與介紹 */}
           {selected && (
             <div
-              className={`fixed inset-0 flex items-center justify-center z-50 ${
-                isFullscreen ? "bg-white" : "bg-black/60"
+              className={`fixed inset-0 flex items-center justify-center z-50 transition-colors duration-300 ${
+                isFullscreen ? "bg-white" : "bg-black bg-opacity-60"
               }`}
             >
               <div
@@ -330,12 +361,4 @@ const Home = () => {
   );
 };
 
-// Helper function for state updates
-const updateState = (prev: boolean[], idx: number) => {
-  if (prev[idx]) return prev;
-  return [...prev.slice(0, idx), true, ...prev.slice(idx + 1)];
-};
-
 export default Home;
-
-// Note: The modal part is not completed in this snippet. You can add the modal content and logic to handle fullscreen view, close button, etc.
