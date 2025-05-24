@@ -22,7 +22,16 @@ const Home = () => {
     desc?: string;
   }>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [visibleCount, setVisibleCount] = useState(0);
+
+  // Track loaded state for each photo
+  const [loaded, setLoaded] = useState<boolean[]>(() =>
+    Array(photos.length).fill(false)
+  );
+
+  // Reset loaded state if photo list changes
+  useEffect(() => {
+    setLoaded(Array(photos.length).fill(false));
+  }, [photos.length]);
 
   // 控制全屏時 body 不可滾動
   useEffect(() => {
@@ -31,7 +40,6 @@ const Home = () => {
     } else {
       document.body.style.overflow = "";
     }
-    // 清理副作用
     return () => {
       document.body.style.overflow = "";
     };
@@ -43,8 +51,9 @@ const Home = () => {
         <div
           key={photo.id}
           className={`group relative overflow-hidden shadow-lg cursor-pointer mb-2 transition-opacity duration-700 ${
-            idx < visibleCount ? "opacity-100" : "opacity-0"
+            loaded[idx] ? "opacity-100" : "opacity-0"
           }`}
+          style={{ breakInside: "avoid" }}
           onClick={() => setSelected(photo)}
         >
           <img
@@ -52,13 +61,20 @@ const Home = () => {
             alt={photo.title}
             className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
             onLoad={() => {
-              // 只允許下一張顯示
-              setVisibleCount((c) => Math.max(c, idx + 1));
+              setLoaded((prev) => {
+                const arr = [...prev];
+                arr[idx] = true;
+                return arr;
+              });
             }}
             onError={() => {
-              setVisibleCount((c) => Math.max(c, idx + 1));
+              setLoaded((prev) => {
+                const arr = [...prev];
+                arr[idx] = true;
+                return arr;
+              });
             }}
-            style={{ transition: "opacity 0.7s" }}
+            style={{ width: "100%", display: "block" }}
           />
           <div className="absolute inset-0 bg-white bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center"></div>
         </div>
@@ -70,7 +86,6 @@ const Home = () => {
           className={`fixed inset-0 flex items-center justify-center z-50 transition-colors duration-300 ${
             isFullscreen ? "bg-white" : "bg-black bg-opacity-60"
           }`}
-          style={{}}
         >
           <div
             className="relative flex flex-col items-center justify-center shadow-lg"

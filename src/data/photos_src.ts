@@ -90,10 +90,10 @@ const originalPhotos = [
   {
     id: 23,
     src: "/images/photos/genève_seashore.jpg",
-    title: "Summer", desc:""
+    title: "Summer", desc:"Sunshine and water.",
   },
 
-  { id: 25, src: "/images/photos/Heavy Rain.jpg", title: "Heavy Rain" },
+  { id: 25, src: "/images/photos/Heavy Rain.jpg", title: "Heavy Rain", desc:"Wipe your glasses." },
   { id: 26, src: "/images/photos/Island.jpg", title: "Island" },
   {
     id: 27,
