@@ -108,6 +108,13 @@ const Home = () => {
     };
   }, [isFullscreen]);
 
+  useEffect(() => {
+    if (allPreviewsLoaded) {
+      document.body.offsetHeight; // trigger reflow
+      window.dispatchEvent(new Event("resize"));
+    }
+  }, [allPreviewsLoaded]);
+
   return (
     <div
       className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2"
