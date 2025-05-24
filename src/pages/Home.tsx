@@ -5,32 +5,40 @@ const Home = () => {
   const photos = originalPhotos;
   const [selected, setSelected] = useState<null | (typeof photos)[0]>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [visibleRows, setVisibleRows] = useState(0);
-  const [rowMap, setRowMap] = useState<number[][]>([]);
-  const [loaded, setLoaded] = useState<boolean[]>(() =>
-    Array(photos.length).fill(false)
-  );
-  const [originalLoaded, setOriginalLoaded] = useState<boolean[]>(() =>
-    Array(photos.length).fill(false)
-  );
-  const [modalLoading, setModalLoading] = useState(false);
 
+  // Refs for each photo container and img
   const photoRefs = useRef<(HTMLDivElement | null)[]>([]);
   const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
   const fullImgRefs = useRef<(HTMLImageElement | null)[]>([]);
-  const columnWrapperRef = useRef<HTMLDivElement>(null);
 
-  // Safari columns fix
-  const triggerSafariReflow = () => {
-    if (columnWrapperRef.current) {
-      columnWrapperRef.current.style.display = "none";
-      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-      columnWrapperRef.current.offsetHeight;
-      columnWrapperRef.current.style.display = "block";
-    }
-  };
+  // Fade-in effect states
+  const [loaded, setLoaded] = useState<boolean[]>(() =>
+    Array(photos.length).fill(false)
+  );
+  const [visibleRows, setVisibleRows] = useState(0);
+  const [rowMap, setRowMap] = useState<number[][]>([]);
 
-  // 建立 rowMap
+  // Preview loading for full image preloading
+  const [previewLoaded, setPreviewLoaded] = useState<boolean[]>(() =>
+    Array(photos.length).fill(false)
+  );
+  const [allPreviewsLoaded, setAllPreviewsLoaded] = useState(false);
+
+  // When all previews are loaded, set flag
+  useEffect(() => {
+    setAllPreviewsLoaded(previewLoaded.every(Boolean));
+  }, [previewLoaded]);
+
+  // Reset loaded states on photo count change
+  useEffect(() => {
+    setLoaded(Array(photos.length).fill(false));
+    setPreviewLoaded(Array(photos.length).fill(false));
+    setVisibleRows(0);
+    setRowMap([]);
+    setAllPreviewsLoaded(false);
+  }, [photos.length]);
+
+  // After all refs are set and window resized, group photos by offsetTop
   useEffect(() => {
     function updateRowMap() {
       const tops: { [key: number]: number[] } = {};
@@ -41,87 +49,87 @@ const Home = () => {
           tops[top].push(idx);
         }
       });
+      // Sort by top position
       const sortedRows = Object.entries(tops)
         .sort((a, b) => Number(a[0]) - Number(b[0]))
         .map(([, arr]) => arr);
       setRowMap(sortedRows);
     }
-    setTimeout(updateRowMap, 30);
+    const timer = setTimeout(updateRowMap, 30);
     window.addEventListener("resize", updateRowMap);
-    return () => window.removeEventListener("resize", updateRowMap);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", updateRowMap);
+    };
   }, [photos.length]);
 
-  // 預設顯示第一行
+  // On mount, check for cached images and mark as loaded if complete
   useEffect(() => {
-    if (rowMap.length > 0 && visibleRows === 0) {
-      setVisibleRows(1);
-    }
-  }, [rowMap, visibleRows]);
+    imgRefs.current.forEach((img, idx) => {
+      if (img && img.complete && !loaded[idx]) {
+        setLoaded((prev) => {
+          const arr = [...prev];
+          arr[idx] = true;
+          return arr;
+        });
+      }
+      if (img && img.complete && !previewLoaded[idx]) {
+        setPreviewLoaded((prev) => {
+          const arr = [...prev];
+          arr[idx] = true;
+          return arr;
+        });
+      }
+    });
+    // eslint-disable-next-line
+  }, [rowMap.length]);
 
-  // 依序 fade-in
+  // When a row's all images are loaded, show that row and prepare for next
   useEffect(() => {
     if (!rowMap.length) return;
     for (let rowIdx = 0; rowIdx < rowMap.length; rowIdx++) {
       const allLoaded = rowMap[rowIdx].every((idx) => loaded[idx]);
       if (allLoaded && visibleRows === rowIdx) {
-        setTimeout(() => setVisibleRows(rowIdx + 1), 60);
+        setTimeout(() => setVisibleRows(rowIdx + 1), 60); // fade in next row
         break;
       }
     }
   }, [loaded, rowMap, visibleRows]);
 
-  // 圖片 preview 載入
-  const handlePreviewLoad = (idx: number) => {
-    setLoaded((prev) => {
-      if (prev[idx]) return prev;
-      const arr = [...prev];
-      arr[idx] = true;
-      return arr;
-    });
-    triggerSafariReflow();
-  };
-
-  // 原圖載入
-  const handleOriginalLoad = (idx: number) => {
-    setOriginalLoaded((prev) => {
-      if (prev[idx]) return prev;
-      const arr = [...prev];
-      arr[idx] = true;
-      return arr;
-    });
-  };
-
-  // 點擊相片時，若原圖未載入，顯示 loading
-  const handleSelect = (photo: (typeof photos)[0], idx: number) => {
-    if (!originalLoaded[idx]) {
-      setModalLoading(true);
-      // 等原圖 onLoad
-      const img = fullImgRefs.current[idx];
-      if (img && img.complete) {
-        setModalLoading(false);
-        setSelected(photo);
-      } else if (img) {
-        img.onload = () => {
-          setModalLoading(false);
-          setSelected(photo);
-        };
-      }
+  // Prevent scroll when fullscreen
+  useEffect(() => {
+    if (isFullscreen) {
+      document.body.style.overflow = "hidden";
     } else {
-      setSelected(photo);
+      document.body.style.overflow = "";
     }
-  };
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isFullscreen]);
+
+  // Force repaint after all previews loaded (Safari fix)
+  useEffect(() => {
+    if (allPreviewsLoaded) {
+      document.body.offsetHeight;
+      window.dispatchEvent(new Event("resize"));
+    }
+  }, [allPreviewsLoaded]);
 
   return (
     <div className="flex min-h-screen">
-      <aside className="w-22 flex-shrink-0 bg-white"></aside>
+      {/* Sidebar */}
+      <aside className="w-22 flex-shrink-0 bg-white">
+        {/* I can add extra contents */}
+      </aside>
+      {/* Main content */}
       <main className="flex-1 px-4 py-8">
         <div
-          ref={columnWrapperRef}
           className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2"
           style={{ minHeight: 800 }}
         >
           {photos.map((photo, idx) => {
-            // 找出 rowIdx
+            // Find which visual row this photo belongs to
             let rowIdx = -1;
             for (let i = 0; i < rowMap.length; i++) {
               if (rowMap[i].includes(idx)) {
@@ -129,7 +137,6 @@ const Home = () => {
                 break;
               }
             }
-            const isVisible = rowIdx !== -1 && rowIdx < visibleRows;
             return (
               <div
                 key={photo.id}
@@ -137,17 +144,17 @@ const Home = () => {
                   photoRefs.current[idx] = el;
                 }}
                 className={`group relative overflow-hidden shadow-lg cursor-pointer mb-2 transition-opacity duration-700 ${
-                  isVisible ? "opacity-100 animate-fade-in" : "opacity-0"
-                } gallery-item`}
+                  rowIdx !== -1 && rowIdx < visibleRows
+                    ? "opacity-100"
+                    : "opacity-0"
+                }`}
                 style={{
                   breakInside: "avoid",
                   minHeight: 80,
                   willChange: "opacity, transform",
                   contain: "layout",
-                  // @ts-ignore
-                  WebkitColumnBreakInside: "avoid",
                 }}
-                onClick={() => handleSelect(photo, idx)}
+                onClick={() => setSelected(photo)}
               >
                 {/* Preview (low quality) image */}
                 <img
@@ -156,35 +163,55 @@ const Home = () => {
                   }}
                   src={photo.low}
                   alt={photo.title}
-                  className="w-full object-cover transition-transform duration-500 group-hover:scale-105 gallery-image"
-                  onLoad={() => handlePreviewLoad(idx)}
-                  onError={() => handlePreviewLoad(idx)}
+                  className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  onLoad={() => {
+                    setLoaded((prev) => {
+                      if (prev[idx]) return prev;
+                      const arr = [...prev];
+                      arr[idx] = true;
+                      return arr;
+                    });
+                    setPreviewLoaded((prev) => {
+                      if (prev[idx]) return prev;
+                      const arr = [...prev];
+                      arr[idx] = true;
+                      return arr;
+                    });
+                  }}
+                  onError={() => {
+                    setLoaded((prev) => {
+                      if (prev[idx]) return prev;
+                      const arr = [...prev];
+                      arr[idx] = true;
+                      return arr;
+                    });
+                    setPreviewLoaded((prev) => {
+                      if (prev[idx]) return prev;
+                      const arr = [...prev];
+                      arr[idx] = true;
+                      return arr;
+                    });
+                  }}
                   style={{ width: "100%", display: "block" }}
                 />
-                {/* Preload full image (hidden) */}
-                <img
-                  ref={(el) => {
-                    fullImgRefs.current[idx] = el;
-                  }}
-                  src={photo.src}
-                  alt=""
-                  style={{ display: "none" }}
-                  onLoad={() => handleOriginalLoad(idx)}
-                />
+                {/* Preload full image (hidden) after all previews loaded */}
+                {allPreviewsLoaded && (
+                  <img
+                    ref={(el) => {
+                      fullImgRefs.current[idx] = el;
+                    }}
+                    src={photo.src}
+                    alt=""
+                    style={{ display: "none" }}
+                  />
+                )}
+                <div className="absolute inset-0 bg-white bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center"></div>
               </div>
             );
           })}
 
           {/* Modal 放大圖與介紹 */}
-          {modalLoading && (
-            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-60">
-              <div className="bg-white rounded-lg p-8 shadow-lg flex flex-col items-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mb-4"></div>
-                <span>Loading...</span>
-              </div>
-            </div>
-          )}
-          {selected && !modalLoading && (
+          {selected && (
             <div
               className={`fixed inset-0 flex items-center justify-center z-50 transition-colors duration-300 ${
                 isFullscreen ? "bg-white" : "bg-black bg-opacity-60"
@@ -250,11 +277,15 @@ const Home = () => {
                     ×
                   </button>
                 </div>
+                {/* 圖片與左右按鈕區塊，flex-1 垂直置中 */}
                 <div className="flex-1 flex flex-col justify-center items-center w-full">
                   <div
-                    className="flex flex-row items-center justify-center w-full"
+                    className={`flex flex-row items-center justify-center w-full ${
+                      isFullscreen ? "" : ""
+                    }`}
                     style={isFullscreen ? { height: "100%" } : {}}
                   >
+                    {/* 上一張按鈕 */}
                     <button
                       className="p-3 text-3xl flex-shrink-0 text-gray-500 hover:text-black"
                       style={{ minWidth: 48 }}
@@ -271,6 +302,7 @@ const Home = () => {
                     >
                       ‹
                     </button>
+                    {/* 圖片 */}
                     <img
                       src={selected.src}
                       alt={selected.title}
@@ -287,6 +319,7 @@ const Home = () => {
                         maxWidth: "100%",
                       }}
                     />
+                    {/* 下一張按鈕 */}
                     <button
                       className="p-3 text-3xl flex-shrink-0 text-gray-500 hover:text-black"
                       style={{ minWidth: 48 }}
@@ -306,6 +339,7 @@ const Home = () => {
                       ›
                     </button>
                   </div>
+                  {/* 標題與描述（非全屏時顯示） */}
                   {!isFullscreen && (
                     <div className="w-full flex flex-col items-center mt-4">
                       <h2 className="text-xl font-bold mb-2 px-6 w-full text-center">
