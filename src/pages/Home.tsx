@@ -5,212 +5,65 @@ const Home = () => {
   const photos = originalPhotos;
   const [selected, setSelected] = useState<null | (typeof photos)[0]>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const columnWrapperRef = useRef<HTMLDivElement>(null);
 
-  // Refs for each photo container and img
-  const photoRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
-  const fullImgRefs = useRef<(HTMLImageElement | null)[]>([]);
+  // 简化加载状态管理
+  const [loadedIndexes, setLoadedIndexes] = useState<Set<number>>(new Set());
 
-  // Fade-in effect states
-  const [loaded, setLoaded] = useState<boolean[]>(() =>
-    Array(photos.length).fill(false)
-  );
-  const [visibleRows, setVisibleRows] = useState(0);
-  const [rowMap, setRowMap] = useState<number[][]>([]);
-
-  // Preview loading for full image preloading
-  const [previewLoaded, setPreviewLoaded] = useState<boolean[]>(() =>
-    Array(photos.length).fill(false)
-  );
-  const [allPreviewsLoaded, setAllPreviewsLoaded] = useState(false);
-
-  // When all previews are loaded, set flag
-  useEffect(() => {
-    setAllPreviewsLoaded(previewLoaded.every(Boolean));
-  }, [previewLoaded]);
-
-  // Reset loaded states on photo count change
-  useEffect(() => {
-    setLoaded(Array(photos.length).fill(false));
-    setPreviewLoaded(Array(photos.length).fill(false));
-    setVisibleRows(0);
-    setRowMap([]);
-    setAllPreviewsLoaded(false);
-  }, [photos.length]);
-
-  // After all refs are set and window resized, group photos by offsetTop
-  useEffect(() => {
-    function updateRowMap() {
-      const tops: { [key: number]: number[] } = {};
-      photoRefs.current.forEach((ref, idx) => {
-        if (ref) {
-          const top = ref.offsetTop;
-          if (!tops[top]) tops[top] = [];
-          tops[top].push(idx);
-        }
-      });
-      // Sort by top position
-      const sortedRows = Object.entries(tops)
-        .sort((a, b) => Number(a[0]) - Number(b[0]))
-        .map(([, arr]) => arr);
-      setRowMap(sortedRows);
+  // Safari 强制布局重排
+  const triggerSafariReflow = () => {
+    if (columnWrapperRef.current) {
+      columnWrapperRef.current.style.display = "none";
+      columnWrapperRef.current.offsetHeight;
+      columnWrapperRef.current.style.display = "block";
     }
-    const timer = setTimeout(updateRowMap, 30);
-    window.addEventListener("resize", updateRowMap);
+  };
+
+  // 初始化布局
+  useEffect(() => {
+    const timer = setTimeout(triggerSafariReflow, 300);
+    window.addEventListener("resize", triggerSafariReflow);
     return () => {
       clearTimeout(timer);
-      window.removeEventListener("resize", updateRowMap);
+      window.removeEventListener("resize", triggerSafariReflow);
     };
-  }, [photos.length]);
+  }, []);
 
-  // On mount, check for cached images and mark as loaded if complete
-  useEffect(() => {
-    imgRefs.current.forEach((img, idx) => {
-      if (img && img.complete && !loaded[idx]) {
-        setLoaded((prev) => {
-          const arr = [...prev];
-          arr[idx] = true;
-          return arr;
-        });
-      }
-      if (img && img.complete && !previewLoaded[idx]) {
-        setPreviewLoaded((prev) => {
-          const arr = [...prev];
-          arr[idx] = true;
-          return arr;
-        });
-      }
-    });
-    // eslint-disable-next-line
-  }, [rowMap.length]);
-
-  // When a row's all images are loaded, show that row and prepare for next
-  useEffect(() => {
-    if (!rowMap.length) return;
-    for (let rowIdx = 0; rowIdx < rowMap.length; rowIdx++) {
-      const allLoaded = rowMap[rowIdx].every((idx) => loaded[idx]);
-      if (allLoaded && visibleRows === rowIdx) {
-        setTimeout(() => setVisibleRows(rowIdx + 1), 60); // fade in next row
-        break;
-      }
-    }
-  }, [loaded, rowMap, visibleRows]);
-
-  // Prevent scroll when fullscreen
-  useEffect(() => {
-    if (isFullscreen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isFullscreen]);
-
-  // Force repaint after all previews loaded (Safari fix)
-  useEffect(() => {
-    if (allPreviewsLoaded) {
-      document.body.offsetHeight;
-      window.dispatchEvent(new Event("resize"));
-    }
-  }, [allPreviewsLoaded]);
+  // 图片加载完成处理
+  const handleImageLoad = (idx: number) => {
+    setLoadedIndexes((prev) => new Set([...prev, idx]));
+    triggerSafariReflow();
+  };
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <aside className="w-22 flex-shrink-0 bg-white">
-        {/* I can add extra contents */}
-      </aside>
-      {/* Main content */}
       <main className="flex-1 px-4 py-8">
         <div
+          ref={columnWrapperRef}
           className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2"
           style={{ minHeight: 800 }}
         >
-          {photos.map((photo, idx) => {
-            // Find which visual row this photo belongs to
-            let rowIdx = -1;
-            for (let i = 0; i < rowMap.length; i++) {
-              if (rowMap[i].includes(idx)) {
-                rowIdx = i;
-                break;
-              }
-            }
-            return (
-              <div
-                key={photo.id}
-                ref={(el) => {
-                  photoRefs.current[idx] = el;
-                }}
-                className={`group relative overflow-hidden shadow-lg cursor-pointer mb-2 transition-opacity duration-700 ${
-                  rowIdx !== -1 && rowIdx < visibleRows
-                    ? "opacity-100"
-                    : "opacity-0"
-                }`}
-                style={{
-                  breakInside: "avoid",
-                  minHeight: 80,
-                  willChange: "opacity, transform",
-                  contain: "layout",
-                }}
+          {photos.map((photo, idx) => (
+            <div
+              key={photo.id}
+              className="gallery-item mb-2 relative break-inside-avoid"
+              style={{
+                opacity: loadedIndexes.has(idx) ? 1 : 0,
+                transition: "opacity 0.5s ease",
+              }}
+            >
+              <img
+                src={photo.low}
+                alt={photo.title}
+                className="w-full h-auto object-cover cursor-pointer"
+                onLoad={() => handleImageLoad(idx)}
+                onError={() => handleImageLoad(idx)}
                 onClick={() => setSelected(photo)}
-              >
-                {/* Preview (low quality) image */}
-                <img
-                  ref={(el) => {
-                    imgRefs.current[idx] = el;
-                  }}
-                  src={photo.low}
-                  alt={photo.title}
-                  className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  onLoad={() => {
-                    setLoaded((prev) => {
-                      if (prev[idx]) return prev;
-                      const arr = [...prev];
-                      arr[idx] = true;
-                      return arr;
-                    });
-                    setPreviewLoaded((prev) => {
-                      if (prev[idx]) return prev;
-                      const arr = [...prev];
-                      arr[idx] = true;
-                      return arr;
-                    });
-                  }}
-                  onError={() => {
-                    setLoaded((prev) => {
-                      if (prev[idx]) return prev;
-                      const arr = [...prev];
-                      arr[idx] = true;
-                      return arr;
-                    });
-                    setPreviewLoaded((prev) => {
-                      if (prev[idx]) return prev;
-                      const arr = [...prev];
-                      arr[idx] = true;
-                      return arr;
-                    });
-                  }}
-                  style={{ width: "100%", display: "block" }}
-                />
-                {/* Preload full image (hidden) after all previews loaded */}
-                {allPreviewsLoaded && (
-                  <img
-                    ref={(el) => {
-                      fullImgRefs.current[idx] = el;
-                    }}
-                    src={photo.src}
-                    alt=""
-                    style={{ display: "none" }}
-                  />
-                )}
-                <div className="absolute inset-0 bg-white bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center"></div>
-              </div>
-            );
-          })}
+              />
+            </div>
+          ))}
 
-          {/* Modal 放大圖與介紹 */}
+          {/* 保持原有Modal实现 */}
           {selected && (
             <div
               className={`fixed inset-0 flex items-center justify-center z-50 transition-colors duration-300 ${
