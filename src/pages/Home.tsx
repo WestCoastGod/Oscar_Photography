@@ -153,6 +153,7 @@ const Home = () => {
                   minHeight: 80,
                   willChange: "opacity, transform",
                   contain: "layout",
+                  transform: "translateZ(0)",
                 }}
                 onClick={() => setSelected(photo)}
               >
