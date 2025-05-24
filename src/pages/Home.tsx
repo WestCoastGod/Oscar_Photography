@@ -5,74 +5,195 @@ const Home = () => {
   const photos = originalPhotos;
   const [selected, setSelected] = useState<null | (typeof photos)[0]>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [visibleRows, setVisibleRows] = useState(0);
+  const [rowMap, setRowMap] = useState<number[][]>([]);
+  const [loaded, setLoaded] = useState<boolean[]>(() =>
+    Array(photos.length).fill(false)
+  );
+  const [previewLoaded, setPreviewLoaded] = useState<boolean[]>(() =>
+    Array(photos.length).fill(false)
+  );
+  const [originalLoaded, setOriginalLoaded] = useState<boolean[]>(() =>
+    Array(photos.length).fill(false)
+  );
+  const [modalLoading, setModalLoading] = useState(false);
+
+  const photoRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const imgRefs = useRef<(HTMLImageElement | null)[]>([]);
+  const fullImgRefs = useRef<(HTMLImageElement | null)[]>([]);
   const columnWrapperRef = useRef<HTMLDivElement>(null);
 
-  // 用 Set 追蹤已載入的圖片 index
-  const [loadedIndexes, setLoadedIndexes] = useState<Set<number>>(new Set());
-
-  // Safari 強制重排
+  // Safari columns fix
   const triggerSafariReflow = () => {
     if (columnWrapperRef.current) {
       columnWrapperRef.current.style.display = "none";
-      // 強制 reflow
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       columnWrapperRef.current.offsetHeight;
       columnWrapperRef.current.style.display = "block";
     }
   };
 
+  // 建立 rowMap
   useEffect(() => {
-    const timer = setTimeout(triggerSafariReflow, 300);
-    window.addEventListener("resize", triggerSafariReflow);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener("resize", triggerSafariReflow);
-    };
-  }, []);
+    function updateRowMap() {
+      const tops: { [key: number]: number[] } = {};
+      photoRefs.current.forEach((ref, idx) => {
+        if (ref) {
+          const top = ref.offsetTop;
+          if (!tops[top]) tops[top] = [];
+          tops[top].push(idx);
+        }
+      });
+      const sortedRows = Object.entries(tops)
+        .sort((a, b) => Number(a[0]) - Number(b[0]))
+        .map(([, arr]) => arr);
+      setRowMap(sortedRows);
+    }
+    setTimeout(updateRowMap, 30);
+    window.addEventListener("resize", updateRowMap);
+    return () => window.removeEventListener("resize", updateRowMap);
+  }, [photos.length]);
 
-  // 單張圖片載入完成
-  const handleImageLoad = (idx: number) => {
-    setLoadedIndexes((prev) => {
-      const next = new Set(prev);
-      next.add(idx);
-      return next;
+  // 預設顯示第一行
+  useEffect(() => {
+    if (rowMap.length > 0 && visibleRows === 0) {
+      setVisibleRows(1);
+    }
+  }, [rowMap, visibleRows]);
+
+  // 依序 fade-in
+  useEffect(() => {
+    if (!rowMap.length) return;
+    for (let rowIdx = 0; rowIdx < rowMap.length; rowIdx++) {
+      const allLoaded = rowMap[rowIdx].every((idx) => loaded[idx]);
+      if (allLoaded && visibleRows === rowIdx) {
+        setTimeout(() => setVisibleRows(rowIdx + 1), 60);
+        break;
+      }
+    }
+  }, [loaded, rowMap, visibleRows]);
+
+  // 圖片 preview 載入
+  const handlePreviewLoad = (idx: number) => {
+    setLoaded((prev) => {
+      if (prev[idx]) return prev;
+      const arr = [...prev];
+      arr[idx] = true;
+      return arr;
+    });
+    setPreviewLoaded((prev) => {
+      if (prev[idx]) return prev;
+      const arr = [...prev];
+      arr[idx] = true;
+      return arr;
     });
     triggerSafariReflow();
   };
 
+  // 原圖載入
+  const handleOriginalLoad = (idx: number) => {
+    setOriginalLoaded((prev) => {
+      if (prev[idx]) return prev;
+      const arr = [...prev];
+      arr[idx] = true;
+      return arr;
+    });
+  };
+
+  // 點擊相片時，若原圖未載入，顯示 loading
+  const handleSelect = (photo: (typeof photos)[0], idx: number) => {
+    if (!originalLoaded[idx]) {
+      setModalLoading(true);
+      // 等原圖 onLoad
+      const img = fullImgRefs.current[idx];
+      if (img && img.complete) {
+        setModalLoading(false);
+        setSelected(photo);
+      } else if (img) {
+        img.onload = () => {
+          setModalLoading(false);
+          setSelected(photo);
+        };
+      }
+    } else {
+      setSelected(photo);
+    }
+  };
+
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
-      <aside className="w-22 flex-shrink-0 bg-white">{/* ... */}</aside>
-      {/* Main content */}
+      <aside className="w-22 flex-shrink-0 bg-white"></aside>
       <main className="flex-1 px-4 py-8">
         <div
           ref={columnWrapperRef}
           className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2"
           style={{ minHeight: 800 }}
         >
-          {photos.map((photo, idx) => (
-            <div
-              key={photo.id}
-              className="gallery-item mb-2 relative break-inside-avoid"
-              style={{
-                opacity: loadedIndexes.has(idx) ? 1 : 0,
-                transition: "opacity 0.5s ease",
-              }}
-            >
-              <img
-                src={photo.low}
-                alt={photo.title}
-                className="w-full h-auto object-cover cursor-pointer"
-                onLoad={() => handleImageLoad(idx)}
-                onError={() => handleImageLoad(idx)}
-                onClick={() => setSelected(photo)}
-              />
-            </div>
-          ))}
+          {photos.map((photo, idx) => {
+            // 找出 rowIdx
+            let rowIdx = -1;
+            for (let i = 0; i < rowMap.length; i++) {
+              if (rowMap[i].includes(idx)) {
+                rowIdx = i;
+                break;
+              }
+            }
+            const isVisible = rowIdx !== -1 && rowIdx < visibleRows;
+            return (
+              <div
+                key={photo.id}
+                ref={(el) => {
+                  photoRefs.current[idx] = el;
+                }}
+                className={`group relative overflow-hidden shadow-lg cursor-pointer mb-2 transition-opacity duration-700 ${
+                  isVisible ? "opacity-100 animate-fade-in" : "opacity-0"
+                } gallery-item`}
+                style={{
+                  breakInside: "avoid",
+                  minHeight: 80,
+                  willChange: "opacity, transform",
+                  contain: "layout",
+                  // @ts-ignore
+                  WebkitColumnBreakInside: "avoid",
+                }}
+                onClick={() => handleSelect(photo, idx)}
+              >
+                {/* Preview (low quality) image */}
+                <img
+                  ref={(el) => {
+                    imgRefs.current[idx] = el;
+                  }}
+                  src={photo.low}
+                  alt={photo.title}
+                  className="w-full object-cover transition-transform duration-500 group-hover:scale-105 gallery-image"
+                  onLoad={() => handlePreviewLoad(idx)}
+                  onError={() => handlePreviewLoad(idx)}
+                  style={{ width: "100%", display: "block" }}
+                />
+                {/* Preload full image (hidden) */}
+                <img
+                  ref={(el) => {
+                    fullImgRefs.current[idx] = el;
+                  }}
+                  src={photo.src}
+                  alt=""
+                  style={{ display: "none" }}
+                  onLoad={() => handleOriginalLoad(idx)}
+                />
+              </div>
+            );
+          })}
 
           {/* Modal 放大圖與介紹 */}
-          {selected && (
+          {modalLoading && (
+            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-60">
+              <div className="bg-white rounded-lg p-8 shadow-lg flex flex-col items-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mb-4"></div>
+                <span>Loading...</span>
+              </div>
+            </div>
+          )}
+          {selected && !modalLoading && (
             <div
               className={`fixed inset-0 flex items-center justify-center z-50 transition-colors duration-300 ${
                 isFullscreen ? "bg-white" : "bg-black bg-opacity-60"
@@ -138,15 +259,11 @@ const Home = () => {
                     ×
                   </button>
                 </div>
-                {/* 圖片與左右按鈕區塊，flex-1 垂直置中 */}
                 <div className="flex-1 flex flex-col justify-center items-center w-full">
                   <div
-                    className={`flex flex-row items-center justify-center w-full ${
-                      isFullscreen ? "" : ""
-                    }`}
+                    className="flex flex-row items-center justify-center w-full"
                     style={isFullscreen ? { height: "100%" } : {}}
                   >
-                    {/* 上一張按鈕 */}
                     <button
                       className="p-3 text-3xl flex-shrink-0 text-gray-500 hover:text-black"
                       style={{ minWidth: 48 }}
@@ -163,7 +280,6 @@ const Home = () => {
                     >
                       ‹
                     </button>
-                    {/* 圖片 */}
                     <img
                       src={selected.src}
                       alt={selected.title}
@@ -180,7 +296,6 @@ const Home = () => {
                         maxWidth: "100%",
                       }}
                     />
-                    {/* 下一張按鈕 */}
                     <button
                       className="p-3 text-3xl flex-shrink-0 text-gray-500 hover:text-black"
                       style={{ minWidth: 48 }}
@@ -200,7 +315,6 @@ const Home = () => {
                       ›
                     </button>
                   </div>
-                  {/* 標題與描述（非全屏時顯示） */}
                   {!isFullscreen && (
                     <div className="w-full flex flex-col items-center mt-4">
                       <h2 className="text-xl font-bold mb-2 px-6 w-full text-center">
