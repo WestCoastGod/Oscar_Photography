@@ -46,7 +46,6 @@ const Home = () => {
               className="group relative overflow-hidden cursor-pointer mb-2 gallery-item"
               onClick={() => setSelected(photo)}
             >
-              {/* 直接移除灰色佔位層 */}
               <div
                 className={`transition-shadow duration-700 w-full h-full ${
                   loaded[idx] ? "shadow-lg" : ""
@@ -75,7 +74,7 @@ const Home = () => {
                       ? `${idx * 80}ms, 0ms`
                       : "0ms, 0ms",
                     transitionProperty: "opacity, transform",
-                    transitionDuration: "500ms",
+                    transitionDuration: "600ms",
                   }}
                   onLoad={() => {
                     setLoaded((prev) => {
