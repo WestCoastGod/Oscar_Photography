@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import originalPhotos from "../data/photos_src";
 
 const Home = () => {
+  function triggerSafariReflow() {
+    document.body.offsetHeight;
+  }
   const photos = originalPhotos;
   const [selected, setSelected] = useState<null | (typeof photos)[0]>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -128,87 +131,72 @@ const Home = () => {
           className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2"
           style={{ minHeight: 800 }}
         >
-          {photos.map((photo, idx) => {
-            // Find which visual row this photo belongs to
-            let rowIdx = -1;
-            for (let i = 0; i < rowMap.length; i++) {
-              if (rowMap[i].includes(idx)) {
-                rowIdx = i;
-                break;
-              }
-            }
-            return (
-              <div
-                key={photo.id}
+          {photos.map((photo, idx) => (
+            <div
+              key={photo.id}
+              ref={(el) => {
+                photoRefs.current[idx] = el;
+              }}
+              className="group relative overflow-hidden shadow-lg cursor-pointer mb-2 gallery-item"
+              style={{
+                breakInside: "avoid",
+                minHeight: 80,
+                willChange: "opacity, transform",
+                contain: "layout",
+                // @ts-ignore
+                WebkitColumnBreakInside: "avoid",
+              }}
+              onClick={() => setSelected(photo)}
+            >
+              {/* 圖片 */}
+              <img
                 ref={(el) => {
-                  photoRefs.current[idx] = el;
+                  imgRefs.current[idx] = el;
                 }}
-                className={`group relative overflow-hidden shadow-lg cursor-pointer mb-2 transition-opacity duration-700 ${
-                  rowIdx !== -1 && rowIdx < visibleRows
-                    ? "opacity-100"
-                    : "opacity-0"
-                }`}
+                src={photo.low}
+                alt={photo.title}
+                className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                onLoad={() => {
+                  setLoaded((prev) => {
+                    if (prev[idx]) return prev;
+                    const arr = [...prev];
+                    arr[idx] = true;
+                    return arr;
+                  });
+                  triggerSafariReflow(); // 每張都重排
+                }}
+                onError={() => {
+                  setLoaded((prev) => {
+                    if (prev[idx]) return prev;
+                    const arr = [...prev];
+                    arr[idx] = true;
+                    return arr;
+                  });
+                  triggerSafariReflow();
+                }}
+                style={{ width: "100%", display: "block" }}
+              />
+              {/* Safari-friendly fade-in 遮罩 */}
+              <div
+                className="absolute inset-0 bg-white transition-opacity duration-700 pointer-events-none"
                 style={{
-                  breakInside: "avoid",
-                  minHeight: 80,
-                  willChange: "opacity, transform",
-                  contain: "layout",
+                  opacity: loaded[idx] ? 0 : 1,
+                  zIndex: 10,
                 }}
-                onClick={() => setSelected(photo)}
-              >
-                {/* Preview (low quality) image */}
+              />
+              {/* 預載原圖 */}
+              {allPreviewsLoaded && (
                 <img
                   ref={(el) => {
-                    imgRefs.current[idx] = el;
+                    fullImgRefs.current[idx] = el;
                   }}
-                  src={photo.low}
-                  alt={photo.title}
-                  className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  onLoad={() => {
-                    setLoaded((prev) => {
-                      if (prev[idx]) return prev;
-                      const arr = [...prev];
-                      arr[idx] = true;
-                      return arr;
-                    });
-                    setPreviewLoaded((prev) => {
-                      if (prev[idx]) return prev;
-                      const arr = [...prev];
-                      arr[idx] = true;
-                      return arr;
-                    });
-                  }}
-                  onError={() => {
-                    setLoaded((prev) => {
-                      if (prev[idx]) return prev;
-                      const arr = [...prev];
-                      arr[idx] = true;
-                      return arr;
-                    });
-                    setPreviewLoaded((prev) => {
-                      if (prev[idx]) return prev;
-                      const arr = [...prev];
-                      arr[idx] = true;
-                      return arr;
-                    });
-                  }}
-                  style={{ width: "100%", display: "block" }}
+                  src={photo.src}
+                  alt=""
+                  style={{ display: "none" }}
                 />
-                {/* Preload full image (hidden) after all previews loaded */}
-                {allPreviewsLoaded && (
-                  <img
-                    ref={(el) => {
-                      fullImgRefs.current[idx] = el;
-                    }}
-                    src={photo.src}
-                    alt=""
-                    style={{ display: "none" }}
-                  />
-                )}
-                <div className="absolute inset-0 bg-white bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center"></div>
-              </div>
-            );
-          })}
+              )}
+            </div>
+          ))}
 
           {/* Modal 放大圖與介紹 */}
           {selected && (
