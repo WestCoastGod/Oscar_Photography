@@ -2,9 +2,6 @@ import { useState, useEffect, useRef } from "react";
 import originalPhotos from "../data/photos_src";
 
 const Home = () => {
-  function triggerSafariReflow() {
-    document.body.offsetHeight;
-  }
   const photos = originalPhotos;
   const [selected, setSelected] = useState<null | (typeof photos)[0]>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -148,14 +145,13 @@ const Home = () => {
               }}
               onClick={() => setSelected(photo)}
             >
-              {/* 圖片 */}
               <img
                 ref={(el) => {
                   imgRefs.current[idx] = el;
                 }}
                 src={photo.low}
                 alt={photo.title}
-                className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                className="w-full object-cover transition-transform duration-500 group-hover:scale-105 gallery-image"
                 onLoad={() => {
                   setLoaded((prev) => {
                     if (prev[idx]) return prev;
@@ -163,7 +159,7 @@ const Home = () => {
                     arr[idx] = true;
                     return arr;
                   });
-                  triggerSafariReflow(); // 每張都重排
+                  triggerSafariReflow();
                 }}
                 onError={() => {
                   setLoaded((prev) => {
@@ -176,7 +172,7 @@ const Home = () => {
                 }}
                 style={{ width: "100%", display: "block" }}
               />
-              {/* Safari-friendly fade-in 遮罩 */}
+              {/* 遮罩式 fade-in，這層才用 opacity 控制 */}
               <div
                 className="absolute inset-0 bg-white transition-opacity duration-700 pointer-events-none"
                 style={{
