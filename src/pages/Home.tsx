@@ -43,62 +43,70 @@ const Home = () => {
           {photos.map((photo, idx) => (
             <div
               key={photo.id}
-              className={`group relative overflow-hidden cursor-pointer mb-2 gallery-item transition-shadow duration-500 ${
-                loaded[idx] ? "shadow-lg" : ""
-              }`}
-              style={{
-                background: "#f8f8f8",
-              }}
+              className="group relative overflow-hidden cursor-pointer mb-2 gallery-item"
               onClick={() => setSelected(photo)}
             >
-              {/* 灰色佔位層，淡出 */}
+              {/* 直接移除灰色佔位層 */}
               <div
-                className={`absolute inset-0 transition-opacity duration-500 bg-[#f8f8f8] z-10 ${
-                  loaded[idx] ? "opacity-0 pointer-events-none" : "opacity-100"
-                }`}
-              />
-              <img
-                src={photo.low}
-                alt={photo.title}
-                className={`w-full object-cover transition-transform transition-opacity duration-700 group-hover:scale-105 ${
-                  loaded[idx] ? "opacity-100" : "opacity-0"
+                className={`transition-shadow duration-700 w-full h-full ${
+                  loaded[idx] ? "shadow-lg" : ""
                 }`}
                 style={{
-                  width: "100%",
-                  // 不要設 aspectRatio 或固定高度
-                  background: "#f8f8f8",
                   transitionDelay: loaded[idx] ? `${idx * 80}ms` : "0ms",
-                  display: "block",
+                  borderRadius: "0.5rem",
+                  position: loaded[idx] ? "static" : "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
                 }}
-                onLoad={() => {
-                  setLoaded((prev) => {
-                    if (prev[idx]) return prev;
-                    const arr = [...prev];
-                    arr[idx] = true;
-                    return arr;
-                  });
-                  setPreviewLoaded((prev) => {
-                    if (prev[idx]) return prev;
-                    const arr = [...prev];
-                    arr[idx] = true;
-                    return arr;
-                  });
-                }}
-                onError={() => {
-                  setLoaded((prev) => {
-                    if (prev[idx]) return prev;
-                    const arr = [...prev];
-                    arr[idx] = true;
-                    return arr;
-                  });
-                  setPreviewLoaded((prev) => {
-                    if (prev[idx]) return prev;
-                    const arr = [...prev];
-                    arr[idx] = true;
-                    return arr;
-                  });
-                }}
-              />
+              >
+                <img
+                  src={photo.low}
+                  alt={photo.title}
+                  className={`w-full object-cover transition-transform transition-opacity duration-700 group-hover:scale-105 ${
+                    loaded[idx] ? "opacity-100" : "opacity-0"
+                  }`}
+                  style={{
+                    width: "100%",
+                    display: "block",
+                    borderRadius: "0.5rem",
+                    transitionDelay: loaded[idx]
+                      ? `${idx * 80}ms, 0ms`
+                      : "0ms, 0ms",
+                    transitionProperty: "opacity, transform",
+                    transitionDuration: "500ms",
+                  }}
+                  onLoad={() => {
+                    setLoaded((prev) => {
+                      if (prev[idx]) return prev;
+                      const arr = [...prev];
+                      arr[idx] = true;
+                      return arr;
+                    });
+                    setPreviewLoaded((prev) => {
+                      if (prev[idx]) return prev;
+                      const arr = [...prev];
+                      arr[idx] = true;
+                      return arr;
+                    });
+                  }}
+                  onError={() => {
+                    setLoaded((prev) => {
+                      if (prev[idx]) return prev;
+                      const arr = [...prev];
+                      arr[idx] = true;
+                      return arr;
+                    });
+                    setPreviewLoaded((prev) => {
+                      if (prev[idx]) return prev;
+                      const arr = [...prev];
+                      arr[idx] = true;
+                      return arr;
+                    });
+                  }}
+                />
+              </div>
               {/* 預載原圖 */}
               {allPreviewsLoaded && (
                 <img
