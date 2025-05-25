@@ -131,86 +131,84 @@ const Home = () => {
           className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2"
           style={{ minHeight: 800 }}
         >
-          {photos.map((photo, idx) => {
-            return (
-              <div
-                key={photo.id}
+          {photos.map((photo, idx) => (
+            <div
+              key={photo.id}
+              ref={(el) => {
+                photoRefs.current[idx] = el;
+              }}
+              className="group relative overflow-hidden shadow-lg cursor-pointer mb-2 gallery-item"
+              style={{
+                breakInside: "avoid",
+                minHeight: 80,
+                willChange: "opacity, transform",
+                contain: "layout",
+                // @ts-ignore
+                WebkitColumnBreakInside: "avoid",
+              }}
+              onClick={() => setSelected(photo)}
+            >
+              {/* Preview (low quality) image */}
+              <img
                 ref={(el) => {
-                  photoRefs.current[idx] = el;
+                  imgRefs.current[idx] = el;
                 }}
-                className="group relative overflow-hidden shadow-lg cursor-pointer mb-2 gallery-item"
+                src={photo.low}
+                alt={photo.title}
+                className="w-full object-cover transition-transform duration-500 group-hover:scale-105 gallery-image"
+                onLoad={() => {
+                  setLoaded((prev) => {
+                    if (prev[idx]) return prev;
+                    const arr = [...prev];
+                    arr[idx] = true;
+                    return arr;
+                  });
+                  setPreviewLoaded((prev) => {
+                    if (prev[idx]) return prev;
+                    const arr = [...prev];
+                    arr[idx] = true;
+                    return arr;
+                  });
+                  triggerSafariReflow();
+                }}
+                onError={() => {
+                  setLoaded((prev) => {
+                    if (prev[idx]) return prev;
+                    const arr = [...prev];
+                    arr[idx] = true;
+                    return arr;
+                  });
+                  setPreviewLoaded((prev) => {
+                    if (prev[idx]) return prev;
+                    const arr = [...prev];
+                    arr[idx] = true;
+                    return arr;
+                  });
+                  triggerSafariReflow();
+                }}
+                style={{ width: "100%", display: "block" }}
+              />
+              {/* 遮罩式 fade-in，這層才用 opacity 控制 */}
+              <div
+                className="absolute inset-0 bg-white transition-opacity duration-700 pointer-events-none"
                 style={{
-                  breakInside: "avoid",
-                  minHeight: 80,
-                  willChange: "opacity, transform",
-                  contain: "layout",
-                  // @ts-ignore
-                  WebkitColumnBreakInside: "avoid",
+                  opacity: loaded[idx] ? 0 : 1,
+                  zIndex: 10,
                 }}
-                onClick={() => setSelected(photo)}
-              >
-                {/* Preview (low quality) image */}
+              />
+              {/* Preload full image (hidden) after all previews loaded */}
+              {allPreviewsLoaded && (
                 <img
                   ref={(el) => {
-                    imgRefs.current[idx] = el;
+                    fullImgRefs.current[idx] = el;
                   }}
-                  src={photo.low}
-                  alt={photo.title}
-                  className="w-full object-cover transition-transform duration-500 group-hover:scale-105 gallery-image"
-                  onLoad={() => {
-                    setLoaded((prev) => {
-                      if (prev[idx]) return prev;
-                      const arr = [...prev];
-                      arr[idx] = true;
-                      return arr;
-                    });
-                    setPreviewLoaded((prev) => {
-                      if (prev[idx]) return prev;
-                      const arr = [...prev];
-                      arr[idx] = true;
-                      return arr;
-                    });
-                    triggerSafariReflow();
-                  }}
-                  onError={() => {
-                    setLoaded((prev) => {
-                      if (prev[idx]) return prev;
-                      const arr = [...prev];
-                      arr[idx] = true;
-                      return arr;
-                    });
-                    setPreviewLoaded((prev) => {
-                      if (prev[idx]) return prev;
-                      const arr = [...prev];
-                      arr[idx] = true;
-                      return arr;
-                    });
-                    triggerSafariReflow();
-                  }}
-                  style={{ width: "100%", display: "block" }}
+                  src={photo.src}
+                  alt=""
+                  style={{ display: "none" }}
                 />
-                {/* 遮罩式 fade-in，這層才用 opacity 控制 */}
-                <div
-                  className="absolute inset-0 bg-white transition-opacity duration-700 pointer-events-none"
-                  style={{
-                    opacity: loaded[idx] ? 0 : 1,
-                    zIndex: 10,
-                  }}
-                />
-                {/* Preload full image (hidden) after all previews loaded */}
-                {allPreviewsLoaded && (
-                  <img
-                    ref={(el) => {
-                      fullImgRefs.current[idx] = el;
-                    }}
-                    src={photo.src}
-                    alt=""
-                    style={{ display: "none" }}
-                  />
-                )}
-              </div>
-            );
-          })}
+              )}
+            </div>
+          ))}
 
           {/* Modal 放大圖與介紹 */}
           {selected && (
