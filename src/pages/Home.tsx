@@ -48,11 +48,10 @@ const Home = () => {
             >
               <div
                 className={`transition-shadow duration-700 w-full h-full ${
-                  loaded[idx] ? "shadow-lg" : ""
-                }`}
+                  loaded[idx] ? "" : ""
+                } overflow-hidden rounded-lg`}
                 style={{
                   transitionDelay: loaded[idx] ? `${idx * 80}ms` : "0ms",
-                  borderRadius: "0.5rem",
                   position: loaded[idx] ? "static" : "absolute",
                   top: 0,
                   left: 0,
@@ -69,7 +68,6 @@ const Home = () => {
                   style={{
                     width: "100%",
                     display: "block",
-                    borderRadius: "0.5rem",
                     transitionDelay: loaded[idx]
                       ? `${idx * 80}ms, 0ms`
                       : "0ms, 0ms",
@@ -214,7 +212,7 @@ const Home = () => {
                   <img
                     src={selected.src}
                     alt={selected.title}
-                    className="max-h-full max-w-full mx-4 rounded object-contain"
+                    className="max-h-full max-w-full mx-4 object-contain"
                     style={{
                       display: "block",
                       margin: "0 auto",
