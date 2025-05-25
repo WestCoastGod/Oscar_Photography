@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import originalPhotos from "../data/photos_src";
 
 const Home = () => {
+  function triggerSafariReflow() {
+    // Forces a reflow in Safari to fix image rendering issues
+    document.body.offsetHeight;
+  }
   const photos = originalPhotos;
   const [selected, setSelected] = useState<null | (typeof photos)[0]>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
