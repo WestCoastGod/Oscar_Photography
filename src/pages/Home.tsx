@@ -132,14 +132,6 @@ const Home = () => {
           style={{ minHeight: 800 }}
         >
           {photos.map((photo, idx) => {
-            // Find which visual row this photo belongs to
-            let rowIdx = -1;
-            for (let i = 0; i < rowMap.length; i++) {
-              if (rowMap[i].includes(idx)) {
-                rowIdx = i;
-                break;
-              }
-            }
             return (
               <div
                 key={photo.id}
