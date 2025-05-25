@@ -60,6 +60,7 @@ const Home = () => {
                 style={{
                   width: "100%",
                   display: "block",
+                  animationDelay: loaded[idx] ? `${idx * 0.12}s` : undefined, // 依序延遲
                 }}
                 onLoad={() => {
                   setLoaded((prev) => {
