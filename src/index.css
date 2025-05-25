@@ -22,6 +22,10 @@
     opacity: 0;
     animation: fade-in 0.8s forwards;
   }
+  .gallery-item:hover .gallery-image {
+    transform: scale(1.05);
+    transition: transform 0.5s;
+  }
 }
 
 /* 图片悬停效果 */

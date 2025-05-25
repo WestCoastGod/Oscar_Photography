@@ -43,24 +43,32 @@ const Home = () => {
           {photos.map((photo, idx) => (
             <div
               key={photo.id}
-              className="group relative overflow-hidden shadow-lg cursor-pointer mb-2 gallery-item"
+              className={`group relative overflow-hidden cursor-pointer mb-2 gallery-item transition-shadow duration-500 ${
+                loaded[idx] ? "shadow-lg" : ""
+              }`}
               style={{
-                minHeight: 80,
-                position: "relative",
+                background: "#f8f8f8",
               }}
               onClick={() => setSelected(photo)}
             >
-              {/* Preview (low quality) image */}
+              {/* 灰色佔位層，淡出 */}
+              <div
+                className={`absolute inset-0 transition-opacity duration-500 bg-[#f8f8f8] z-10 ${
+                  loaded[idx] ? "opacity-0 pointer-events-none" : "opacity-100"
+                }`}
+              />
               <img
                 src={photo.low}
                 alt={photo.title}
-                className={`w-full object-cover transition-transform duration-500 group-hover:scale-105 gallery-image ${
-                  loaded[idx] ? "animate-fade-in" : ""
+                className={`w-full object-cover transition-transform transition-opacity duration-700 group-hover:scale-105 ${
+                  loaded[idx] ? "opacity-100" : "opacity-0"
                 }`}
                 style={{
                   width: "100%",
+                  // 不要設 aspectRatio 或固定高度
+                  background: "#f8f8f8",
+                  transitionDelay: loaded[idx] ? `${idx * 80}ms` : "0ms",
                   display: "block",
-                  animationDelay: loaded[idx] ? `${idx * 0.12}s` : undefined, // 依序延遲
                 }}
                 onLoad={() => {
                   setLoaded((prev) => {
