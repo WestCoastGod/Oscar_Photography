@@ -60,8 +60,6 @@ const Home = () => {
                 style={{
                   width: "100%",
                   display: "block",
-                  opacity: loaded[idx] ? 1 : 0,
-                  transition: "opacity 0.7s, transform 0.5s",
                 }}
                 onLoad={() => {
                   setLoaded((prev) => {
