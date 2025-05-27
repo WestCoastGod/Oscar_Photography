@@ -107,7 +107,7 @@ function OverlayColorClickHandler({
 }
 
 const MapPage = () => {
-  const [setGeneralSituation] = useState<string>("");
+  // const [generalSituation, setGeneralSituation] = useState<string>("");
   const [popupInfo, setPopupInfo] = useState<{
     lat: number;
     lng: number;
@@ -142,7 +142,6 @@ const MapPage = () => {
     )
       .then((res) => res.json())
       .then((data) => {
-        setGeneralSituation(data.generalSituation || "");
         // 只保留指定地區
         const wanted = ["Sha Tin", "Tuen Mun", "Tseung Kwan O"];
         if (data.temperature && Array.isArray(data.temperature.data)) {
@@ -152,7 +151,6 @@ const MapPage = () => {
         }
       })
       .catch(() => {
-        setGeneralSituation("");
         setTemperatures([]);
       });
   }, []);
