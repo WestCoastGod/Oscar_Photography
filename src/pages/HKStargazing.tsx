@@ -132,15 +132,29 @@ const MapPage = () => {
     };
   }, []);
 
+  const [temperatures, setTemperatures] = useState<
+    { place: string; value: number; unit: string }[]
+  >([]);
+
   useEffect(() => {
     fetch(
-      "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=fnd&lang=en"
+      "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=en"
     )
       .then((res) => res.json())
       .then((data) => {
         setGeneralSituation(data.generalSituation || "");
+        // 只保留指定地區
+        const wanted = ["Sha Tin", "Tuen Mun", "Tseung Kwan O"];
+        if (data.temperature && Array.isArray(data.temperature.data)) {
+          setTemperatures(
+            data.temperature.data.filter((d: any) => wanted.includes(d.place))
+          );
+        }
       })
-      .catch(() => setGeneralSituation(""));
+      .catch(() => {
+        setGeneralSituation("");
+        setTemperatures([]);
+      });
   }, []);
 
   return (
@@ -177,23 +191,33 @@ const MapPage = () => {
             textAlign: "center",
             margin: "0 auto",
             boxSizing: "border-box",
+            position: "relative",
           }}
         >
-          <h2 className="text-2xl font-bold mb-2">Hong Kong Stargazing Map</h2>
-          {generalSituation && (
+          <h2 className="text-2xl font-bold mb-2">
+            Hong Kong Stargazing Map (Beta, not finished yet)
+          </h2>
+          {/* 新增：只顯示指定地區氣溫 */}
+          {temperatures.length > 0 && (
             <div
               style={{
-                marginTop: 16,
-                background: "#1a1d23",
+                marginTop: 12,
+                background: "white",
                 borderRadius: 8,
-                padding: 12,
+                padding: 10,
                 fontSize: 15,
-                color: "#ffe082",
-                textAlign: "left",
+                color: "black",
+                textAlign: "center",
               }}
             >
-              <b>Weather Forecast: </b>
-              <span>{generalSituation}</span>
+              <b>HKO API Demo (Real-time Temperatures)</b>
+              <ul style={{ margin: 0, paddingLeft: 0 }}>
+                {temperatures.map((t) => (
+                  <li key={t.place}>
+                    {t.place}: {t.value}°{t.unit}
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </div>
