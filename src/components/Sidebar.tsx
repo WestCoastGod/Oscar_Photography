@@ -21,6 +21,12 @@ const Sidebar = () => {
           <nav className="w-5 h-5" /> Home
         </Link>
         <Link
+          to="/hk-stargazing"
+          className="items-cente text-gray-700 hover:text-blue-600"
+        >
+          <nav className="w-5 h-5" /> HK Stargazing (Beta)
+        </Link>
+        <Link
           to="/about"
           className="items-center text-gray-700 hover:text-blue-600"
         >
