@@ -49,3 +49,8 @@
 .my-masonry-grid_column > .gallery-item {
   margin-bottom: 16px;
 }
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 400 !important;
+}

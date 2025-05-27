@@ -23,7 +23,7 @@ const Layout = () => {
           {/* Sidebar: 小螢幕 sidebarOpen 時顯示，大螢幕永遠顯示 */}
           <div
             className={`
-    fixed z-50 top-0 left-0 h-full transition-transform duration-300
+    fixed z-[500] top-0 left-0 h-full transition-transform duration-300
     ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
     lg:translate-x-0 lg:fixed lg:z-50 lg:top-0 lg:left-0 lg:h-full lg:block
     ${sidebarOpen ? "" : "hidden"} lg:block
@@ -39,7 +39,7 @@ const Layout = () => {
         {/* 小螢幕顯示 Sidebar 開關按鈕 */}
         {!hideSidebar && (
           <button
-            className="lg:hidden fixed top-2 left-2 z-50 bg-white rounded-full shadow p-2"
+            className="lg:hidden fixed top-2 left-2 z-[500] bg-white rounded-full shadow p-2"
             onClick={() => setSidebarOpen((open) => !open)}
           >
             <svg

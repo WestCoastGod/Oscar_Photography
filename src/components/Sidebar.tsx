@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="w-48 bg-white shadow-none fixed h-full flex flex-col items-start p-10">
+    <div className="w-48 bg-white shadow-none fixed h-full flex flex-col items-start p-10 z-[2000]">
       {/* 头像链接 */}
       <Link to="/" className="block mb-4">
         <img
