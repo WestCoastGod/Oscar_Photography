@@ -8,6 +8,7 @@ Link to the website: https://oscar-photography.vercel.app/
 ## 27/05/2025
 
 - Initiate Hong Kong Stargazing Page
+  ![HK Stargazing lofi hifi](public/images/hkstar_lofi_hifi.jpg)
 
 ## 24/05/2025
 
