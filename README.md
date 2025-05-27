@@ -5,10 +5,15 @@ Link to the website: https://oscar-photography.vercel.app/
 
 # Development Logs
 
+## 27/05/2025
+
+- Initiate Hong Kong Stargazing Page
+
 ## 24/05/2025
 
 - Add more photos and descriptions
 - Cancel enlargment window scroller
+- Enhance image fade-in animation
 
 ## 23/05/2025
 
