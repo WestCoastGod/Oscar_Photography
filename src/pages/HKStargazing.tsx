@@ -107,7 +107,7 @@ function OverlayColorClickHandler({
 }
 
 const MapPage = () => {
-  const [generalSituation, setGeneralSituation] = useState<string>("");
+  const [setGeneralSituation] = useState<string>("");
   const [popupInfo, setPopupInfo] = useState<{
     lat: number;
     lng: number;
