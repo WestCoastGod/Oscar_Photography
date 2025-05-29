@@ -107,7 +107,6 @@ function OverlayColorClickHandler({
 }
 
 const MapPage = () => {
-  // const [generalSituation, setGeneralSituation] = useState<string>("");
   const [popupInfo, setPopupInfo] = useState<{
     lat: number;
     lng: number;
@@ -132,27 +131,33 @@ const MapPage = () => {
     };
   }, []);
 
-  const [temperatures, setTemperatures] = useState<
-    { place: string; value: number; unit: string }[]
+  const [forecast, setForecast] = useState<
+    { date: string; bortle: string; mpsas: number; cloud_cover_mean?: number }[]
   >([]);
+  const [loading, setLoading] = useState(true);
+  const [apiTimeout, setApiTimeout] = useState(false);
 
   useEffect(() => {
-    fetch(
-      "https://data.weather.gov.hk/weatherAPI/opendata/weather.php?dataType=rhrread&lang=en"
-    )
+    setLoading(true);
+    setApiTimeout(false);
+    const timeout = setTimeout(() => setApiTimeout(true), 8000); // 8 seconds
+
+    fetch("http://localhost:8000/api/stargazing-forecast")
       .then((res) => res.json())
       .then((data) => {
-        // 只保留指定地區
-        const wanted = ["Sha Tin", "Tuen Mun", "Tseung Kwan O"];
-        if (data.temperature && Array.isArray(data.temperature.data)) {
-          setTemperatures(
-            data.temperature.data.filter((d: any) => wanted.includes(d.place))
-          );
-        }
+        setForecast(data);
+        setLoading(false);
+        setApiTimeout(false);
+        clearTimeout(timeout);
       })
       .catch(() => {
-        setTemperatures([]);
+        setForecast([]);
+        setLoading(false);
+        setApiTimeout(true);
+        clearTimeout(timeout);
       });
+
+    return () => clearTimeout(timeout);
   }, []);
 
   return (
@@ -193,29 +198,116 @@ const MapPage = () => {
           }}
         >
           <h2 className="text-2xl font-bold mb-2">
-            Hong Kong Stargazing Map (Beta, not finished yet)
+            Hong Kong Stargazing Prediction
           </h2>
-          {/* 新增：只顯示指定地區氣溫 */}
-          {temperatures.length > 0 && (
-            <div
-              style={{
-                marginTop: 12,
-                background: "white",
-                borderRadius: 8,
-                padding: 10,
-                fontSize: 15,
-                color: "black",
-                textAlign: "center",
-              }}
-            >
-              <b>HKO API Demo (Real-time Temperatures)</b>
-              <ul style={{ margin: 0, paddingLeft: 0 }}>
-                {temperatures.map((t) => (
-                  <li key={t.place}>
-                    {t.place}: {t.value}°{t.unit}
-                  </li>
-                ))}
-              </ul>
+          {loading ? (
+            <div className="forecast-grid">
+              {[...Array(7)].map((_, idx) => (
+                <div
+                  key={idx}
+                  className="forecast-card"
+                  style={{
+                    background: "#fff",
+                    borderRadius: 10,
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
+                    padding: 18,
+                    minWidth: 120,
+                    textAlign: "center",
+                    color: "#23272f",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  Predicting...
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="forecast-grid">
+              {forecast.length > 0
+                ? forecast.map((f, idx) => {
+                    const dateObj = new Date(f.date);
+                    const dayNames = [
+                      "Sunday",
+                      "Monday",
+                      "Tuesday",
+                      "Wednesday",
+                      "Thursday",
+                      "Friday",
+                      "Saturday",
+                    ];
+                    let label = dayNames[dateObj.getDay()];
+                    if (idx === 0) label = "Today";
+                    else if (idx === 1) label = "Tomorrow";
+
+                    return (
+                      <div
+                        key={f.date}
+                        className="forecast-card"
+                        style={{
+                          background: "#fff",
+                          borderRadius: 10,
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
+                          padding: 18,
+                          minWidth: 120,
+                          textAlign: "center",
+                          color: "#23272f",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }}
+                      >
+                        <div
+                          style={{
+                            fontWeight: "bold",
+                            fontSize: 18,
+                            marginBottom: 6,
+                          }}
+                        >
+                          {label}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: 15,
+                            color: "#0077cc",
+                            marginBottom: 4,
+                          }}
+                        >
+                          <b>Stargazing Level:</b> {f.bortle}
+                        </div>
+                        <div style={{ fontSize: 14, marginBottom: 4 }}>
+                          <b>Sky Brightness:</b> {f.mpsas} MPSAS
+                        </div>
+                        <div style={{ fontSize: 16 }}>
+                          <b>Cloud:</b>{" "}
+                          {f.cloud_cover_mean !== undefined
+                            ? `${Math.round(f.cloud_cover_mean)}%`
+                            : "N/A"}
+                        </div>
+                      </div>
+                    );
+                  })
+                : [...Array(7)].map((_, idx) => (
+                    <div
+                      key={idx}
+                      className="forecast-card"
+                      style={{
+                        background: "#fff",
+                        borderRadius: 10,
+                        boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
+                        padding: 18,
+                        minWidth: 120,
+                        textAlign: "center",
+                        color: "#23272f",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
+                      {apiTimeout ? "API not responding" : "API timeout"}
+                    </div>
+                  ))}
             </div>
           )}
         </div>
@@ -283,7 +375,7 @@ const MapPage = () => {
                   <b>Location</b>: {popupInfo.lat.toFixed(4)},{" "}
                   {popupInfo.lng.toFixed(4)}
                   <br />
-                  <b>Sky Brightness</b>: {popupInfo.sky} mag/arcsec²
+                  <b>Sky Brightness</b>: {popupInfo.sky} MPSAS
                   <br />
                   <b>Bortle Level</b>: {popupInfo.bortle}
                 </div>

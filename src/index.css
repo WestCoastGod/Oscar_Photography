@@ -54,3 +54,29 @@
 .leaflet-bottom {
   z-index: 400 !important;
 }
+
+/* Weather forecast grid */
+.forecast-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(7, 1fr); /* 7 cards in one row by default */
+  margin-top: 12px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-bottom: 8px;
+}
+@media (max-width: 1200px) {
+  .forecast-grid {
+    grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
+  }
+}
+@media (max-width: 800px) {
+  .forecast-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 cards per row */
+  }
+}
+@media (max-width: 500px) {
+  .forecast-grid {
+    grid-template-columns: 1fr; /* 1 card per row */
+  }
+}
