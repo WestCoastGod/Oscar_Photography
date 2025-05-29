@@ -240,6 +240,10 @@ const MapPage = () => {
                     let label = dayNames[dateObj.getDay()];
                     if (idx === 0) label = "Today";
                     else if (idx === 1) label = "Tomorrow";
+                    // 新增日期字串
+                    const dateStr = `${dateObj.getDate()}/${
+                      dateObj.getMonth() + 1
+                    }`;
 
                     return (
                       <div
@@ -265,11 +269,21 @@ const MapPage = () => {
                             marginBottom: 6,
                           }}
                         >
-                          {label}
+                          {label}{" "}
+                          <span
+                            style={{
+                              fontWeight: 400,
+                              fontSize: 18,
+                              marginLeft: 4,
+                              color: "black",
+                            }}
+                          >
+                            {dateStr}
+                          </span>
                         </div>
                         <div
                           style={{
-                            fontSize: 15,
+                            fontSize: 14,
                             color: "#0077cc",
                             marginBottom: 4,
                           }}
@@ -279,8 +293,8 @@ const MapPage = () => {
                         <div style={{ fontSize: 14, marginBottom: 4 }}>
                           <b>Sky Brightness:</b> {f.mpsas} MPSAS
                         </div>
-                        <div style={{ fontSize: 16 }}>
-                          <b>Cloud:</b>{" "}
+                        <div style={{ fontSize: 14 }}>
+                          <b>Cloud Cover:</b>{" "}
                           {f.cloud_cover_mean !== undefined
                             ? `${Math.round(f.cloud_cover_mean)}%`
                             : "N/A"}
@@ -330,6 +344,24 @@ const MapPage = () => {
             minHeight: 0,
           }}
         >
+          {/* 地圖右下角提示 */}
+          <div
+            style={{
+              position: "absolute",
+              right: 0,
+              bottom: 0,
+              background: "rgba(30,30,30,0.85)",
+              color: "#fff",
+              padding: "4px 8px",
+              borderRadius: "8px 0 0 0",
+              fontSize: 14,
+              zIndex: 9999,
+              pointerEvents: "none",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+            }}
+          >
+            Stargazing level: <b>lower is better</b>
+          </div>
           <MapContainer
             center={HONG_KONG_CENTER}
             zoom={DEFAULT_ZOOM}

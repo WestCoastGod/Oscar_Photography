@@ -5,6 +5,12 @@ Link to the website: https://oscar-photography.vercel.app/
 
 # Development Logs
 
+## 29/05/2025
+
+- Add pre-trained prediction Random Forest model
+- Add weather api from [Open_Meteo](https://open-meteo.com/), of 35 weather elements for 7 days forecast
+- Deployed the backend in [Render](https://render.com/)
+
 ## 27/05/2025
 
 - Initiate Hong Kong Stargazing Page
@@ -32,6 +38,7 @@ Link to the website: https://oscar-photography.vercel.app/
 - Add photo enlargement window
 - Enhance fluency of Welcome page shooting stars
 - Add show and hide button for sidebar
+- Deployed the frontend in [Vercel](https://vercel.com/)
 
 ## 20/05/2025
 

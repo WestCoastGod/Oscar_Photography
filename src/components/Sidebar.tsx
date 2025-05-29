@@ -24,7 +24,7 @@ const Sidebar = () => {
           to="/hk-stargazing"
           className="items-cente text-gray-700 hover:text-blue-600"
         >
-          <nav className="w-5 h-5" /> HK Stargazing (Beta)
+          <nav className="w-5 h-5" /> HK Stargazing
         </Link>
         <Link
           to="/about"
