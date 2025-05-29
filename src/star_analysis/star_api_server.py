@@ -12,6 +12,11 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+def root():
+    return {"message": "Oscar Photography API is running."}
+
+
 @app.get("/api/stargazing-forecast")
 def stargazing_forecast():
     return get_7day_stargazing_forecast()

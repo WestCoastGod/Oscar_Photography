@@ -48,9 +48,14 @@ VAR_METHOD = {
     "et0_fao_evapotranspiration_sum": "mean",
 }
 
-CACHE_PATH = (
-    r"C:\Users\cxoox\Desktop\Photo_Web\src\star_analysis\data\forecast_cache.json"
-)
+# 設定 BASE_DIR 為本檔案所在資料夾
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+CACHE_PATH = os.path.join(BASE_DIR, "data", "forecast_cache.json")
+SUN_CSV = os.path.join(BASE_DIR, "data", "Sun_rise_set_2025.csv")
+MOON_CSV = os.path.join(BASE_DIR, "data", "Moon_rise_set_2025.csv")
+MODEL_PATH = os.path.join(BASE_DIR, "model", "stargazing_model.pkl")
+SCALER_PATH = os.path.join(BASE_DIR, "model", "stargazing_scaler.pkl")
 
 
 def process_ensemble_grouped(data):
@@ -200,21 +205,13 @@ def get_7day_stargazing_forecast():
         processed = []
 
     # --- Astronomy Data ---
-    sun_times = load_times_csv(
-        r"C:\Users\cxoox\Desktop\Photo_Web\src\star_analysis\data\Sun_rise_set_2025.csv"
-    )
-    moon_times = load_times_csv(
-        r"C:\Users\cxoox\Desktop\Photo_Web\src\star_analysis\data\Moon_rise_set_2025.csv"
-    )
+    sun_times = load_times_csv(SUN_CSV)
+    moon_times = load_times_csv(MOON_CSV)
     processed = merge_astronomy_grouped(processed, sun_times, moon_times)
 
     # --- Model ---
-    model = joblib.load(
-        r"C:\Users\cxoox\Desktop\Photo_Web\src\star_analysis\model\stargazing_model.pkl"
-    )
-    scaler = joblib.load(
-        r"C:\Users\cxoox\Desktop\Photo_Web\src\star_analysis\model\stargazing_scaler.pkl"
-    )
+    model = joblib.load(MODEL_PATH)
+    scaler = joblib.load(SCALER_PATH)
 
     # --- Prediction ---
     results = []
