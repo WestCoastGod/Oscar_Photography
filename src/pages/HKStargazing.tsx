@@ -142,7 +142,7 @@ const MapPage = () => {
     setApiTimeout(false);
     const timeout = setTimeout(() => setApiTimeout(true), 8000); // 8 seconds
 
-    fetch("http://localhost:8000/api/stargazing-forecast")
+    fetch("https://oscar-photography.onrender.com/api/stargazing-forecast")
       .then((res) => res.json())
       .then((data) => {
         setForecast(data);
