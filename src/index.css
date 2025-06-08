@@ -80,3 +80,91 @@
     grid-template-columns: 1fr; /* 1 card per row */
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000 !important;
+    color: #fff !important;
+  }
+  .gallery-item,
+  .my-masonry-grid_column,
+  .forecast-grid {
+    background-color: #111 !important;
+  }
+  /* Optional: force all text to white */
+  * {
+    color: #fff !important;
+    border-color: #333 !important;
+  }
+  .letsgo-btn {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1px solid #fff !important;
+  }
+  .letsgo-btn,
+  .letsgo-btn * {
+    color: #000 !important;
+  }
+  .glad-msg {
+    color: #fff !important;
+    background: transparent !important;
+    opacity: 1 !important;
+  }
+  .sidebar-dark {
+    background: #000 !important;
+  }
+  .invert-on-hover:hover {
+    filter: invert(1);
+    transition: filter 0.3s;
+  }
+  .profile-photo {
+    border: 2px solid #fff !important;
+    box-sizing: border-box;
+  }
+  .my-masonry-grid_column,
+  .gallery-item {
+    background: #000 !important;
+  }
+  .stargazing-root,
+  .stargazing-root * {
+    color: unset !important;
+    background: unset !important;
+  }
+  .stargazing-root .leaflet-control-zoom a {
+    background: #fff !important;
+    color: #222 !important;
+  }
+  .stargazing-root .forecast-card {
+    background: #222 !important; /* 深灰色 */
+  }
+  .stargazing-root .info-bar {
+    border: 1px solid #fff !important;
+  }
+  .stargazing-root .map-container {
+    border: 1px solid #fff !important;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+}
+.stargazing-root .stargazing-level {
+  color: #0077cc !important;
+}
+.stargazing-root .map-tip {
+  background: #1e1e1e !important;
+  color: #fff !important;
+}
+.stargazing-root .forecast-grid {
+  scrollbar-width: thin;
+  scrollbar-color: #888 transparent;
+}
+.stargazing-root .forecast-grid::-webkit-scrollbar {
+  width: 6px;
+  background: transparent;
+}
+.stargazing-root .forecast-grid::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+.stargazing-root .forecast-grid::-webkit-scrollbar-track {
+  background: transparent;
+}

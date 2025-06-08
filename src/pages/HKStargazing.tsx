@@ -162,6 +162,7 @@ const MapPage = () => {
 
   return (
     <div
+      className="stargazing-root"
       style={{
         height: "100%",
         width: "100%",
@@ -183,6 +184,7 @@ const MapPage = () => {
       >
         {/* Stargazing 資訊欄 */}
         <div
+          className="info-bar"
           style={{
             width: "100%",
             background: "#23272f",
@@ -282,9 +284,9 @@ const MapPage = () => {
                           </span>
                         </div>
                         <div
+                          className="stargazing-level"
                           style={{
                             fontSize: 14,
-                            color: "#0077cc",
                             marginBottom: 4,
                           }}
                         >
@@ -327,6 +329,7 @@ const MapPage = () => {
         </div>
         {/* 地圖視窗 */}
         <div
+          className="map-container"
           style={{
             width: "100%",
             flex: 1,
@@ -346,6 +349,7 @@ const MapPage = () => {
         >
           {/* 地圖右下角提示 */}
           <div
+            className="map-tip"
             style={{
               position: "absolute",
               right: 0,

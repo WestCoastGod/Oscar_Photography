@@ -33,12 +33,12 @@ const Welcome = () => {
     <>
       <ShootingStars />
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold mb-4 animate-fade-in text-center whitespace-pre-line leading-tight px-4 sm:px-8 md:px-10 py-4 sm:py-6 bg-white/80 rounded-full inline-block">
+        <h1 className="glad-msg text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold mb-4 animate-fade-in text-center whitespace-pre-line leading-tight px-4 sm:px-8 md:px-10 py-4 sm:py-6 bg-white/80 rounded-full inline-block">
           Glad that you are here!{"\n"}Wish you happy every day!
         </h1>
         <Link
           to="/home"
-          className="animate-fade-in px-5 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition-colors flex items-center gap-2"
+          className="letsgo-btn animate-fade-in px-5 py-2 rounded-full bg-black text-white hover:bg-gray-800 transition-colors flex items-center gap-2"
         >
           <span>Let's Go!</span>
           <svg

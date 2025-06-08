@@ -5,6 +5,11 @@ Link to the website: https://oscar-photography.vercel.app/
 
 # Development Logs
 
+## 08/06/2025
+
+- Add dark mode to the website, automatically change according to user system
+  ![dark mode](public/images/dark_mode.jpg)
+
 ## 29/05/2025
 
 - Add pre-trained prediction Random Forest model

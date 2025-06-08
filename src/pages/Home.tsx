@@ -122,8 +122,8 @@ const Home = () => {
         {/* Modal 放大圖與介紹 */}
         {selected && (
           <div
-            className={`fixed inset-0 flex items-center justify-center z-50 transition-colors duration-300 ${
-              isFullscreen ? "bg-white" : "bg-black bg-opacity-60"
+            className={`fixed inset-0 flex items-center justify-center z-[1000] transition-colors duration-300 ${
+              isFullscreen ? "bg-white dark:bg-black" : "bg-black bg-opacity-60"
             }`}
             onClick={() => {
               setSelected(null);
@@ -131,13 +131,14 @@ const Home = () => {
             }}
           >
             <div
-              className="relative flex flex-col items-center justify-center shadow-lg"
+              className="relative flex flex-col items-center justify-center shadow-lg bg-white dark:bg-black"
               style={{
                 width: isFullscreen ? "100vw" : "1100px",
                 maxWidth: "95vw",
                 height: isFullscreen ? "100vh" : "80vh",
                 maxHeight: "95vh",
-                background: "white",
+                // REMOVE this line:
+                // background: "white",
                 borderRadius: isFullscreen ? 0 : "0.75rem",
                 overflow: "hidden",
                 transition: "all 0.3s",
