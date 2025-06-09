@@ -5,6 +5,10 @@ Link to the website: https://oscar-photography.vercel.app/
 
 # Development Logs
 
+## 09/06/2025
+
+- Update About Me page
+
 ## 08/06/2025
 
 - Add dark mode to the website, automatically change according to user system

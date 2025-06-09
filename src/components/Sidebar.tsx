@@ -15,22 +15,22 @@ const Sidebar = () => {
       {/* 导航菜单 */}
       <nav className="space-y-4 w-full">
         <Link
+          to="/about"
+          className="items-center text-gray-700 hover:text-blue-600"
+        >
+          <nav className="w-5 h-5" /> About Me
+        </Link>
+        <Link
           to="/home"
           className="items-cente text-gray-700 hover:text-blue-600"
         >
-          <nav className="w-5 h-5" /> Home
+          <nav className="w-5 h-5" /> Photography
         </Link>
         <Link
           to="/hk-stargazing"
           className="items-cente text-gray-700 hover:text-blue-600"
         >
           <nav className="w-5 h-5" /> HK Stargazing
-        </Link>
-        <Link
-          to="/about"
-          className="items-center text-gray-700 hover:text-blue-600"
-        >
-          <nav className="w-5 h-5" /> About Me
         </Link>
       </nav>
 
