@@ -34,7 +34,7 @@ const Photography = () => {
       <aside className="w-22 flex-shrink-0 bg-white">
         {/* 你可以放側邊欄內容 */}
       </aside>
-      <main className="flex-1 px-4 py-8">
+      <main className="flex-1 px-0 sm:px-2 md:px-4 py-8">
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="my-masonry-grid"

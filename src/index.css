@@ -168,3 +168,21 @@
 .stargazing-root .forecast-grid::-webkit-scrollbar-track {
   background: transparent;
 }
+@media (max-width: 500px) {
+  main {
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+    padding-top: 22px !important;
+  }
+  .my-masonry-grid {
+    margin-left: 0 !important; /* Remove left margin */
+    margin-right: 0 !important; /* Remove right margin if present */
+  }
+  .my-masonry-grid_column {
+    padding-left: 4px !important; /* Remove left padding */
+    padding-right: 4px !important; /* Remove right padding if present */
+  }
+  .my-masonry-grid_column > .gallery-item {
+    margin-bottom: 8px; /* Keep or adjust the gap between photos */
+  }
+}
