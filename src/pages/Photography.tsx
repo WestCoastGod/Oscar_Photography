@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import Masonry from "react-masonry-css";
 import originalPhotos from "../data/photos_src";
 
-const Home = () => {
+const Photography = () => {
   const photos = originalPhotos;
   const [selected, setSelected] = useState<null | (typeof photos)[0]>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -261,4 +261,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Photography;

@@ -21,7 +21,7 @@ const Sidebar = () => {
           <nav className="w-5 h-5" /> About Me
         </Link>
         <Link
-          to="/home"
+          to="/photography"
           className="items-cente text-gray-700 hover:text-blue-600"
         >
           <nav className="w-5 h-5" /> Photography
