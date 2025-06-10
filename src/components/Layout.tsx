@@ -45,7 +45,7 @@ const Layout = () => {
         {/* 小螢幕顯示 Sidebar 開關按鈕 */}
         {!hideSidebar && (
           <button
-            className="lg:hidden fixed top-4 left-4 z-[500] bg-white dark:bg-black rounded-full"
+            className="lg:hidden fixed top-4 left-4 z-[500] bg-white dark:bg-black rounded"
             onClick={() => setSidebarOpen((open) => !open)}
           >
             <svg

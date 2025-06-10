@@ -15,12 +15,10 @@ const Photography = () => {
   const [allPreviewsLoaded, setAllPreviewsLoaded] = useState(false);
   const fullImgRefs = useRef<(HTMLImageElement | null)[]>([]);
 
-  // 當所有 preview 載入完畢
   useEffect(() => {
     setAllPreviewsLoaded(previewLoaded.every(Boolean));
   }, [previewLoaded]);
 
-  // Masonry 斷點設定
   const breakpointColumnsObj = {
     default: 4,
     1100: 3,
@@ -28,13 +26,28 @@ const Photography = () => {
     500: 2,
   };
 
+  const renderGridCells = (photoId: string) => {
+    const cells = [];
+    for (let i = 0; i < 100; i++) {
+      cells.push(
+        <div
+          key={`grid-${photoId}-${i}`}
+          // Ensure this class matches the CSS, e.g., from the copied block:
+          // .reflection-container .reflection-grid-cell
+          // The individual cell positioning (top/left) is handled by .reflection-grid-cell-X in CSS
+          className={`reflection-grid-cell reflection-grid-cell-${i + 1}`}
+        ></div>
+      );
+    }
+    return cells;
+  };
+
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
       <aside className="w-22 flex-shrink-0 bg-white">
-        {/* 你可以放側邊欄內容 */}
+        {/* Sidebar content */}
       </aside>
-      <main className="flex-1 px-0 sm:px-2 md:px-4 py-8">
+      <main className="flex-1 px- sm:px-2 md:px-4 py-8">
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="my-masonry-grid"
@@ -43,36 +56,25 @@ const Photography = () => {
           {photos.map((photo, idx) => (
             <div
               key={photo.id}
-              className="group relative overflow-hidden cursor-pointer mb-2 gallery-item"
+              className="group relative cursor-pointer mb-2 reflection-container"
               onClick={() => setSelected(photo)}
             >
+              {renderGridCells(String(photo.id))}
+
               <div
-                className={`transition-shadow duration-700 w-full h-full ${
-                  loaded[idx] ? "" : ""
-                } overflow-hidden rounded-lg`}
-                style={{
-                  transitionDelay: loaded[idx] ? `${idx * 80}ms` : "0ms",
-                  position: loaded[idx] ? "static" : "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                }}
+                className={`reflection-content w-full h-full ${
+                  loaded[idx] ? "image-loaded" : "" // Add 'image-loaded' class when loaded
+                } rounded-lg`}
               >
                 <img
                   src={photo.low}
                   alt={photo.title}
-                  className={`w-full object-cover transition-transform transition-opacity duration-700 group-hover:scale-105 ${
+                  className={`w-full h-full object-cover transition-opacity duration-700 rounded-lg ${
                     loaded[idx] ? "opacity-100" : "opacity-0"
                   }`}
                   style={{
-                    width: "100%",
                     display: "block",
-                    transitionDelay: loaded[idx]
-                      ? `${idx * 80}ms, 0ms`
-                      : "0ms, 0ms",
-                    transitionProperty: "opacity, transform",
-                    transitionDuration: "600ms",
+                    transitionDelay: loaded[idx] ? `${idx * 80}ms` : "0ms",
                   }}
                   onLoad={() => {
                     setLoaded((prev) => {
@@ -104,7 +106,6 @@ const Photography = () => {
                   }}
                 />
               </div>
-              {/* 預載原圖 */}
               {allPreviewsLoaded && (
                 <img
                   ref={(el) => {
@@ -119,7 +120,6 @@ const Photography = () => {
           ))}
         </Masonry>
 
-        {/* Modal 放大圖與介紹 */}
         {selected && (
           <div
             className={`fixed inset-0 flex items-center justify-center z-[1000] transition-colors duration-300 ${
@@ -137,8 +137,6 @@ const Photography = () => {
                 maxWidth: "95vw",
                 height: isFullscreen ? "100vh" : "80vh",
                 maxHeight: "95vh",
-                // REMOVE this line:
-                // background: "white",
                 borderRadius: isFullscreen ? 0 : "0.75rem",
                 overflow: "hidden",
                 transition: "all 0.3s",

@@ -16,19 +16,19 @@ const Sidebar = () => {
       <nav className="space-y-4 w-full">
         <Link
           to="/about"
-          className="items-center text-gray-700 hover:text-blue-600"
+          className="items-center text-gray-700 hover:text-blue-600 dark:text-white dark:hover:text-blue-400"
         >
           <nav className="w-5 h-5" /> About Me
         </Link>
         <Link
           to="/photography"
-          className="items-cente text-gray-700 hover:text-blue-600"
+          className="items-cente text-gray-700 hover:text-blue-600 dark:text-white dark:hover:text-blue-400"
         >
           <nav className="w-5 h-5" /> Photography
         </Link>
         <Link
           to="/hk-stargazing"
-          className="items-cente text-gray-700 hover:text-blue-600"
+          className="items-cente text-gray-700 hover:text-blue-600 dark:text-white dark:hover:text-blue-400"
         >
           <nav className="w-5 h-5" /> HK Stargazing
         </Link>

@@ -24,7 +24,7 @@ export default function About() {
               key={idx}
               className={
                 idx === 0
-                  ? "charmonman-regular text-3xl sm:text-5xl md:text-6xl text-black dark:text-white mb-4 sm:mb-6 md:mb-8"
+                  ? "charmonman-regular text-3xl sm:text-5xl md:text-6xl text-black dark:text-white mb-4 sm:mb-6 md:mb-6"
                   : "font-serif text-3xl sm:text-5xl md:text-6xl text-black dark:text-white uppercase mb-2"
               }
             >
