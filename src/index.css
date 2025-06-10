@@ -1530,24 +1530,16 @@
     background-color: #000 !important;
     color: #fff !important;
   }
+  .gallery-item,
+  .my-masonry-grid_column,
   .forecast-grid {
     background-color: #111 !important;
   }
-  /* More specific dark mode styles */
-  .dark .text-gray-500 {
-    color: #9ca3af !important; /* Example: Adjust gray for dark mode */
+  /* Optional: force all text to white */
+  * {
+    color: #fff !important;
+    border-color: #333 !important;
   }
-  .dark .hover\:text-black:hover {
-    color: #fff !important; /* Example: Hover text in dark mode */
-  }
-  .dark .bg-white {
-    background-color: #000 !important;
-  }
-  .dark .shadow-lg {
-    box-shadow: 0 10px 15px -3px rgba(200, 200, 200, 0.1),
-      0 4px 6px -2px rgba(200, 200, 200, 0.05) !important;
-  }
-
   .letsgo-btn {
     background: #fff !important;
     color: #000 !important;
@@ -1574,8 +1566,8 @@
     box-sizing: border-box;
   }
   .my-masonry-grid_column,
-  .reflection-container {
-    background: #000 !important; /* Or transparent if you want body bg to show */
+  .gallery-item {
+    background: #000 !important;
   }
   .stargazing-root,
   .stargazing-root * {
@@ -1627,14 +1619,14 @@
     padding-top: 22px !important;
   }
   .my-masonry-grid {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    margin-left: 0 !important; /* Remove left margin */
+    margin-right: 0 !important; /* Remove right margin if present */
   }
   .my-masonry-grid_column {
-    padding-left: 4px !important;
-    padding-right: 4px !important;
+    padding-left: 4px !important; /* Remove left padding */
+    padding-right: 4px !important; /* Remove right padding if present */
   }
-  .my-masonry-grid_column > .reflection-container {
-    margin-bottom: 8px;
+  .my-masonry-grid_column > .gallery-item {
+    margin-bottom: 8px; /* Keep or adjust the gap between photos */
   }
 }
