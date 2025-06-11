@@ -15,7 +15,7 @@ export default function About() {
         <ReactP5Wrapper sketch={sketch} />
       </div>
       {/* Main stack content */}
-      <div className="relative flex flex-col items-center text-center z-10 w-full">
+      <div className="relative flex flex-col items-center text-center z-10 w-full text-shadow-strong">
         {titles.map((text, idx) =>
           text === "AI DEVELOPE" ? (
             <div
@@ -27,7 +27,7 @@ export default function About() {
               <img
                 src="/images/smart_toy_ai.svg"
                 alt="AI Icon"
-                className="h-8 sm:h-12 md:h-16 ml-0 -mt-2 dark:invert"
+                className="h-8 sm:h-12 md:h-16 ml-0 -mt-2 dark:invert svg-shadow "
                 style={{ display: "inline-block", verticalAlign: "middle" }}
               />
             </div>
@@ -53,25 +53,25 @@ export default function About() {
           <img
             src="/images/badminton.svg"
             alt="Badminton"
-            className="h-10 sm:h-14 md:h-16 dark:invert"
+            className="h-10 sm:h-14 md:h-16 dark:invert svg-shadow"
             style={{ display: "inline-block", verticalAlign: "middle" }}
           />
           <img
             src="/images/table_tennis.svg"
             alt="Table Tennis"
-            className="h-10 sm:h-14 md:h-16 dark:invert"
+            className="h-10 sm:h-14 md:h-16 dark:invert svg-shadow"
             style={{ display: "inline-block", verticalAlign: "middle" }}
           />
           <img
             src="/images/tennis.svg"
             alt="Tennis"
-            className="h-10 sm:h-14 md:h-16 dark:invert"
+            className="h-10 sm:h-14 md:h-16 dark:invert svg-shadow"
             style={{ display: "inline-block", verticalAlign: "middle" }}
           />
           <img
             src="/images/hiking.svg"
             alt="Hiking"
-            className="h-10 sm:h-14 md:h-16 dark:invert"
+            className="h-10 sm:h-14 md:h-16 dark:invert svg-shadow"
             style={{ display: "inline-block", verticalAlign: "middle" }}
           />
         </div>
