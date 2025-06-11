@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import "./Yeti.css"; // We'll create this for the styles
 
 const Yeti = () => {
