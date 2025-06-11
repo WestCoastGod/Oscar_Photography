@@ -12,6 +12,16 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- 全域引入 clutter_js 依賴，順序很重要 -->
+    <script src="/clutter_js/textures.js"></script>
+    <script src="/clutter_js/update.js"></script>
+    <script src="/clutter_js/circ.js"></script>
+    <script src="/clutter_js/m_grfx.js"></script>
+    <script src="/clutter_js/m_ring.js"></script>
+    <script src="/clutter_js/m_cloud.js"></script>
+    <script src="/clutter_js/m_cosmic.js"></script>
+    <script src="/clutter_js/m_sphere.js"></script>
+    <!-- 不要引入 sketch_clutter.js -->
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

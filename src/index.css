@@ -52,7 +52,7 @@
   height: 200%;
   left: -50%;
   top: -50%;
-  background: linear-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.2));
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(0, 0, 0, 0));
   opacity: 0; /* ADD THIS BACK: Make it hidden initially */
   transition: opacity 0.1s linear, transform 0.1s linear; /* ADD THIS BACK: For smooth appearance and movement */
   pointer-events: none;

@@ -1,9 +1,21 @@
+import { ReactP5Wrapper } from "react-p5-wrapper";
+import { sketch } from "../p5sketch";
+
 const titles = ["Oscar Zhang", "CUHK Student", "AI DEVELOPE"];
 
 export default function About() {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-black w-full h-full overflow-hidden">
-      <div className="flex flex-col items-center text-center">
+      {/* Background animation canvas */}
+      <div
+        id="about-bg-canvas"
+        className="fixed inset-0 w-full h-full z-0 about-bg-canvas"
+        style={{ pointerEvents: "none" }}
+      >
+        <ReactP5Wrapper sketch={sketch} />
+      </div>
+      {/* Main stack content */}
+      <div className="relative flex flex-col items-center text-center z-10 w-full">
         {titles.map((text, idx) =>
           text === "AI DEVELOPE" ? (
             <div
@@ -40,7 +52,7 @@ export default function About() {
         <div className="flex flex-row gap-4 items-center mb-2">
           <img
             src="/images/badminton.svg"
-            alt="AI Icon"
+            alt="Badminton"
             className="h-10 sm:h-14 md:h-16 dark:invert"
             style={{ display: "inline-block", verticalAlign: "middle" }}
           />
@@ -58,7 +70,7 @@ export default function About() {
           />
           <img
             src="/images/hiking.svg"
-            alt="Tennis"
+            alt="Hiking"
             className="h-10 sm:h-14 md:h-16 dark:invert"
             style={{ display: "inline-block", verticalAlign: "middle" }}
           />
