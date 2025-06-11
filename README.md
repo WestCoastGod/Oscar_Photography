@@ -5,6 +5,10 @@ Link to the website: https://oscar-photography.vercel.app/
 
 # Development Logs
 
+## 11/06/2025
+
+- Add animation and SVG figure to sidebard
+
 ## 09/06/2025
 
 - Update About Me page
