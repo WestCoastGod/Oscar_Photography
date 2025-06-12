@@ -102,6 +102,14 @@ export default function About() {
           background-color: white !important;
         }
         @media (prefers-color-scheme: dark) {
+          .text-shadow-strong {
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+          }
+          
+          .svg-shadow {
+            filter: invert(1) drop-shadow(2px 2px 4px rgba(255, 255, 255, 0.5));
+          }
+          
           body {
             background-color: #000 !important;
           }

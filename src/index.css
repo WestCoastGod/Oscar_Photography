@@ -1589,6 +1589,24 @@
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
   }
+  .stargazing-root .map-container {
+    border: 1px solid #fff !important;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+  }
+
+  .stargazing-root .leaflet-popup-content-wrapper {
+    background: #000 !important;
+    color: #fff !important;
+  }
+
+  .stargazing-root .leaflet-popup-content {
+    color: #fff !important;
+  }
+
+  .stargazing-root .leaflet-popup-tip {
+    background: #000 !important;
+  }
 }
 .stargazing-root .stargazing-level {
   color: #0077cc !important;

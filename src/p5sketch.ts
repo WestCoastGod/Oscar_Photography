@@ -70,13 +70,48 @@ export const sketch = (p: P5CanvasInstance<SketchProps>) => {
       );
       return;
     }
+
     // Use p.random which is correctly bound
     let r_type = p.floor(p.random(gOptionCount));
     let x = p.random(p.width);
     let y = p.random(p.height);
+
+    // Check if mobile and apply scale factor to graphics
+    const isMobile = window.innerWidth <= 768;
+
     try {
       // M_Grfx constructor will use global p5 functions (e.g., random, color)
       let newGraphic = new (window as any).M_Grfx(x, y, r_type);
+
+      // Apply mobile scaling to the graphic
+      if (newGraphic && isMobile) {
+        const mobileScale = 0.5; // Make graphics 50% smaller on mobile
+
+        // Try different ways to apply scaling based on how M_Grfx is structured
+        if (typeof newGraphic.setScale === "function") {
+          newGraphic.setScale(mobileScale);
+        } else if (newGraphic.hasOwnProperty("scale")) {
+          newGraphic.scale = mobileScale;
+        } else if (newGraphic.hasOwnProperty("size")) {
+          newGraphic.size *= mobileScale;
+        } else if (
+          newGraphic.hasOwnProperty("w") &&
+          newGraphic.hasOwnProperty("h")
+        ) {
+          // If it has width and height properties
+          newGraphic.w *= mobileScale;
+          newGraphic.h *= mobileScale;
+        } else if (newGraphic.hasOwnProperty("radius")) {
+          // If it's a circular graphic
+          newGraphic.radius *= mobileScale;
+        }
+
+        // Add a mobile scale property for use in display methods
+        newGraphic.mobileScale = mobileScale;
+      } else if (newGraphic) {
+        newGraphic.mobileScale = 1.0;
+      }
+
       grfx.push(newGraphic);
     } catch (e) {
       console.error("Error creating new M_Grfx instance in generateGrfx:", e);
@@ -210,7 +245,8 @@ export const sketch = (p: P5CanvasInstance<SketchProps>) => {
     // Initialize and sync colors
     updateColors();
 
-    let cnv = p.createCanvas(p.windowWidth, p.windowHeight, p.WEBGL);
+    // Keep full screen canvas - no mobile scaling here
+    let cnv = p.createCanvas(window.innerWidth, window.innerHeight, p.WEBGL);
     const canvasParent = document.getElementById("about-bg-canvas");
     if (canvasParent) {
       cnv.parent(canvasParent);
@@ -253,7 +289,15 @@ export const sketch = (p: P5CanvasInstance<SketchProps>) => {
     for (let i = 0; i < grfx.length; i++) {
       const graphicItem = grfx[i];
       if (graphicItem && typeof graphicItem.display === "function") {
-        graphicItem.display();
+        // Apply mobile scaling in draw if the graphic supports it
+        if (graphicItem.mobileScale && graphicItem.mobileScale !== 1.0) {
+          p.push();
+          p.scale(graphicItem.mobileScale);
+          graphicItem.display();
+          p.pop();
+        } else {
+          graphicItem.display();
+        }
       }
       if (graphicItem && typeof graphicItem.glide === "function") {
         graphicItem.glide();
@@ -263,10 +307,7 @@ export const sketch = (p: P5CanvasInstance<SketchProps>) => {
   };
 
   p.windowResized = () => {
-    p.resizeCanvas(p.windowWidth, p.windowHeight);
-  };
-
-  p.keyPressed = () => {
-    generateGrfx();
+    // Keep full screen resize - no mobile scaling here
+    p.resizeCanvas(window.innerWidth, window.innerHeight);
   };
 };
