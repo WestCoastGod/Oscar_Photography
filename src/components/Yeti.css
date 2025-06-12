@@ -71,9 +71,10 @@
   background-color: black;
   border-radius: 50%;
   transform: translate3d(
-    calc((var(--mouse-progress-x, 0.15) - 0.15) * 10px),
-    /* Adjusted X center */ calc((var(--mouse-progress-y, 0.9) - 0.9) * 15px),
-    /* Adjusted Y center */ 0
+    calc(max(-8px, min(8px, (var(--mouse-progress-x, 0.15) - 0.15) * 10px))),
+    /* Restrict horizontal movement between -8px and +8px */
+      calc(max(-8px, min(8px, (var(--mouse-progress-y, 0.9) - 0.9) * 15px))),
+    /* Restrict vertical movement between -8px and +8px */ 0
   );
   z-index: 2;
 }
@@ -85,9 +86,10 @@
   background-color: white;
   border-radius: 50%;
   transform: translate3d(
-    calc((var(--mouse-progress-x, 0.15) - 0.15) * 17px),
-    /* Adjusted X center */ calc((var(--mouse-progress-y, 0.9) - 0.9) * 22px),
-    /* Adjusted Y center */ 0
+    calc(max(-20px, min(12px, (var(--mouse-progress-x, 0.15) - 0.15) * 17px))),
+    /* Restrict horizontal movement between -10px and +10px */
+      calc(max(-13px, min(10px, (var(--mouse-progress-y, 0.9) - 0.9) * 22px))),
+    /* Restrict vertical movement between -10px and +10px */ 0
   );
   z-index: 3;
 }
