@@ -7,11 +7,7 @@ Link to the website: https://oscar-photography.vercel.app/
 
 ## 11/06/2025
 
-- Add animation and SVG figure to sidebard
-
-## 09/06/2025
-
-- Update About Me page
+- Add animation and SVG figure to sidebard and About Me page, referenced from [Antoine Wodniack](https://codepen.io/wodniack/pen/abyoKEa)
 
 ## 08/06/2025
 

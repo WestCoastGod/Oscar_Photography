@@ -169,6 +169,11 @@ const MapPage = () => {
         display: "flex",
         flexDirection: "column",
         background: "#fff",
+        paddingTop: "0px", 
+        paddingBottom: "0px", 
+        paddingLeft: "16px", 
+        paddingRight: "16px", 
+        boxSizing: "border-box", 
       }}
     >
       <canvas ref={canvasRef} style={{ display: "none" }} />
@@ -359,9 +364,10 @@ const MapPage = () => {
               padding: "4px 8px",
               borderRadius: "8px 0 0 0",
               fontSize: 14,
-              zIndex: 9999,
+              zIndex: 450,
               pointerEvents: "none",
               boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+              
             }}
           >
             Stargazing level: <b>lower is better</b>

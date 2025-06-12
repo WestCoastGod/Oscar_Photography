@@ -73,19 +73,119 @@ export const sketch = (p: P5CanvasInstance<SketchProps>) => {
 
     // Use p.random which is correctly bound
     let r_type = p.floor(p.random(gOptionCount));
-    let x = p.random(p.width);
-    let y = p.random(p.height);
 
-    // Check if mobile and apply scale factor to graphics
+    // Define the center area to avoid (where your text stack is)
+    const centerX = p.width / 2;
+    const centerY = p.height / 2;
+
+    // Check if mobile and adjust exclusion zone accordingly
     const isMobile = window.innerWidth <= 768;
+    const isSmallMobile = window.innerWidth <= 480;
+
+    let exclusionWidth, exclusionHeight;
+
+    if (isSmallMobile) {
+      // For very small phones - make exclusion smaller to leave more space for graphics
+      exclusionWidth = p.width * 0.5; // Reduced from 0.6 to 0.5
+      exclusionHeight = p.height * 0.6; // Reduced from 0.7 to 0.6
+    } else if (isMobile) {
+      // For regular mobile phones
+      exclusionWidth = p.width * 0.55; // Reduced from 0.65 to 0.55
+      exclusionHeight = p.height * 0.65; // Reduced from 0.75 to 0.65
+    } else {
+      // For desktop/tablet
+      exclusionWidth = p.width * 0.6; // 60% of screen width
+      exclusionHeight = p.height * 0.8; // 80% of screen height
+    }
+
+    // Define the four corner regions around the exclusion zone
+    const cornerRegions = [
+      // Top-left corner
+      {
+        name: "top-left",
+        minX: 0,
+        maxX: centerX - exclusionWidth / 2,
+        minY: 0,
+        maxY: centerY - exclusionHeight / 2,
+      },
+      // Top-right corner
+      {
+        name: "top-right",
+        minX: centerX + exclusionWidth / 2,
+        maxX: p.width,
+        minY: 0,
+        maxY: centerY - exclusionHeight / 2,
+      },
+      // Bottom-left corner
+      {
+        name: "bottom-left",
+        minX: 0,
+        maxX: centerX - exclusionWidth / 2,
+        minY: centerY + exclusionHeight / 2,
+        maxY: p.height,
+      },
+      // Bottom-right corner
+      {
+        name: "bottom-right",
+        minX: centerX + exclusionWidth / 2,
+        maxX: p.width,
+        minY: centerY + exclusionHeight / 2,
+        maxY: p.height,
+      },
+    ];
+
+    // Filter out regions that are too small
+    const minRegionSize = isMobile ? 20 : 30; // Reduced minimum size
+    const validRegions = cornerRegions.filter((region) => {
+      const width = region.maxX - region.minX;
+      const height = region.maxY - region.minY;
+      const isValid = width > minRegionSize && height > minRegionSize;
+
+      // Debug logging
+      console.log(
+        `Region ${region.name}: ${width}x${height}, valid: ${isValid}`
+      );
+
+      return isValid;
+    });
+
+    if (validRegions.length === 0) {
+      console.warn("No valid corner regions found for graphics placement");
+      return;
+    }
+
+    // Randomly select one of the valid corner regions
+    const selectedRegion = validRegions[p.floor(p.random(validRegions.length))];
+
+    // Generate random position within the selected corner region
+    const x = p.random(selectedRegion.minX, selectedRegion.maxX);
+    const y = p.random(selectedRegion.minY, selectedRegion.maxY);
+
+    // Debug logging
+    console.log(
+      `Generated graphic in ${selectedRegion.name} at (${x.toFixed(
+        0
+      )}, ${y.toFixed(0)})`
+    );
 
     try {
       // M_Grfx constructor will use global p5 functions (e.g., random, color)
       let newGraphic = new (window as any).M_Grfx(x, y, r_type);
 
+      // Store the position and region info for debugging
+      newGraphic.debugX = x;
+      newGraphic.debugY = y;
+      newGraphic.debugRegion = selectedRegion.name;
+
       // Apply mobile scaling to the graphic
       if (newGraphic && isMobile) {
-        const mobileScale = 0.5; // Make graphics 50% smaller on mobile
+        let mobileScale;
+
+        if (isSmallMobile) {
+          mobileScale = 0.5; // Increased from 0.4 to make more visible
+        } else {
+          mobileScale = 0.6; // Increased from 0.5 to make more visible
+        }
 
         // Try different ways to apply scaling based on how M_Grfx is structured
         if (typeof newGraphic.setScale === "function") {
@@ -266,9 +366,21 @@ export const sketch = (p: P5CanvasInstance<SketchProps>) => {
         });
     }
 
-    // Initialize graphics
+    // Initialize graphics with fewer items on mobile
     grfx.length = 0;
-    for (let i = 0; i < 16; i++) {
+    const isMobile = window.innerWidth <= 768;
+    const isSmallMobile = window.innerWidth <= 480;
+
+    let graphicCount;
+    if (isSmallMobile) {
+      graphicCount = 14; // Very few graphics on small phones
+    } else if (isMobile) {
+      graphicCount = 18; // Fewer graphics on mobile
+    } else {
+      graphicCount = 24; // Full graphics on desktop
+    }
+
+    for (let i = 0; i < graphicCount; i++) {
       generateGrfx();
     }
   };
@@ -283,21 +395,32 @@ export const sketch = (p: P5CanvasInstance<SketchProps>) => {
     (window as any).keyCode = p.keyCode;
 
     p.background(bkgdColor);
+
+    // WEBGL coordinate fix - translate to handle coordinate system
     p.translate(-p.width / 2, -p.height / 2);
 
     p.push();
     for (let i = 0; i < grfx.length; i++) {
       const graphicItem = grfx[i];
       if (graphicItem && typeof graphicItem.display === "function") {
-        // Apply mobile scaling in draw if the graphic supports it
-        if (graphicItem.mobileScale && graphicItem.mobileScale !== 1.0) {
-          p.push();
-          p.scale(graphicItem.mobileScale);
-          graphicItem.display();
-          p.pop();
-        } else {
-          graphicItem.display();
-        }
+        p.push();
+
+        // Remove the debug squares - comment out or delete this section:
+        /*
+      if (
+        graphicItem.debugX !== undefined &&
+        graphicItem.debugY !== undefined
+      ) {
+        p.fill(255, 0, 0, 100); // Semi-transparent red for debugging
+        p.noStroke();
+        p.rect(graphicItem.debugX - 5, graphicItem.debugY - 5, 10, 10);
+      }
+      */
+
+        // Display the actual graphic
+        graphicItem.display();
+
+        p.pop();
       }
       if (graphicItem && typeof graphicItem.glide === "function") {
         graphicItem.glide();

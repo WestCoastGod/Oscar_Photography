@@ -47,7 +47,7 @@ const Photography = () => {
       <aside className="w-22 flex-shrink-0 bg-white">
         {/* Sidebar content */}
       </aside>
-      <main className="flex-1 px- sm:px-2 md:px-4 py-8">
+      <main className="flex-1 px-0 sm:px-2 md:px-0 py-0">
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="my-masonry-grid"
@@ -56,7 +56,7 @@ const Photography = () => {
           {photos.map((photo, idx) => (
             <div
               key={photo.id}
-              className="group relative cursor-pointer mb-2 reflection-container"
+              className="group relative cursor-pointer reflection-container"
               onClick={() => setSelected(photo)}
             >
               {renderGridCells(String(photo.id))}

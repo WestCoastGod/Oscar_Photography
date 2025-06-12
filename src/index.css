@@ -1630,23 +1630,53 @@
 .stargazing-root .forecast-grid::-webkit-scrollbar-track {
   background: transparent;
 }
+/* Responsive photo spacing using CSS custom properties */
+:root {
+  --photo-gap: 6px; /* Small screens - mobile */
+}
+
+@media (min-width: 640px) {
+  :root {
+    --photo-gap: 8px; /* Medium screens - tablet */
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --photo-gap: 12px; /* Large screens - desktop */
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --photo-gap: 16px; /* Extra large screens */
+  }
+}
+
+/* Update your existing Masonry grid styles */
+.my-masonry-grid {
+  display: flex;
+  margin-left: calc(-1 * var(--photo-gap)); /* Use CSS variable */
+  width: auto;
+}
+
+.my-masonry-grid_column {
+  padding-left: var(--photo-gap); /* Use CSS variable */
+  background-clip: padding-box;
+}
+
+.my-masonry-grid_column > .reflection-container {
+  margin-top: var(--photo-gap); /* Add responsive top margin */
+  margin-bottom: var(--photo-gap); /* Use CSS variable for bottom margin */
+}
+
 @media (max-width: 500px) {
   main {
-    padding-left: 3px !important;
-    padding-right: 3px !important;
-    padding-top: 22px !important;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+    padding-top: 20px !important;
   }
-  .my-masonry-grid {
-    margin-left: 0 !important; /* Remove left margin */
-    margin-right: 0 !important; /* Remove right margin if present */
-  }
-  .my-masonry-grid_column {
-    padding-left: 4px !important; /* Remove left padding */
-    padding-right: 4px !important; /* Remove right padding if present */
-  }
-  .my-masonry-grid_column > .gallery-item {
-    margin-bottom: 8px; /* Keep or adjust the gap between photos */
-  }
+  /* Remove the custom margin/padding overrides - let CSS variables handle it */
 }
 .text-shadow-strong {
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
