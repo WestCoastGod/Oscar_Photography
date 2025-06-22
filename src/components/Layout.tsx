@@ -67,6 +67,7 @@ const Layout = () => {
         )}
         <Outlet />
       </main>
+      <Analytics />
     </div>
   );
 };
