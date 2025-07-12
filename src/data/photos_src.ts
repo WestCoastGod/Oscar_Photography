@@ -558,7 +558,7 @@ const originalPhotos = [
     id: 82,
     src: "/images/photos/pbc_studio.jpg",
     low: "/images/low_quality/pbc_studio.jpg",
-    title: "Stduio Graduation",
+    title: "Studio Graduation",
     desc: "Happy Graduation!",
   },
       {
