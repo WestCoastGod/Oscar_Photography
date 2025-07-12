@@ -441,13 +441,14 @@ const originalPhotos = [
     title: "Upstairs Residence",
     desc: "Hidden somewhere in the mountains.",
   },
-  {
+      {
     id: 66,
-    src: "/images/photos/環回北路夜景.jpg",
-    low: "/images/low_quality/環回北路夜景.jpg",
-    title: "Train",
-    desc: "My first long exposure photo.",
+    src: "/images/photos/habour_foggy.jpg",
+    low: "/images/low_quality/habour_foggy.jpg",
+    title: "Foggy Harbour",
+    desc: "Mystery habour.",
   },
+
   {
     id: 67,
     src: "/images/photos/神武門.jpg",
@@ -538,6 +539,34 @@ const originalPhotos = [
     low: "/images/low_quality/SLEEP_LOVE.jpg",
     title: "Sleep Love",
     desc: "Good night 🌃",
+  },
+  {
+    id: 66,
+    src: "/images/photos/環回北路夜景.jpg",
+    low: "/images/low_quality/環回北路夜景.jpg",
+    title: "Train",
+    desc: "My first long exposure photo.",
+  },
+    {
+    id: 81,
+    src: "/images/photos/habour.jpg",
+    low: "/images/low_quality/habour.jpg",
+    title: "Habour",
+    desc: "That cruise ship came in time.",
+  },
+    {
+    id: 82,
+    src: "/images/photos/pbc_studio.jpg",
+    low: "/images/low_quality/pbc_studio.jpg",
+    title: "Stduio Graduation",
+    desc: "Happy Graduation!",
+  },
+      {
+    id: 83,
+    src: "/images/photos/geese.JPG",
+    low: "/images/low_quality/geese.JPG",
+    title: "Geese",
+    desc: "🪿🪿🪿🪿🪿",
   },
 ];
 
