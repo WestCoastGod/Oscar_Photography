@@ -23,7 +23,7 @@ export default function About() {
               className="flex flex-row gap-2 md:gap-6 press-start-2p text-2xl sm:text-4xl md:text-5xl text-black dark:text-white uppercase mb-2 items-center"
             >
               <span>AI</span>
-              <span>DEVELOPE</span>
+              <span>DEVELOPER</span>
               <img
                 src="/images/smart_toy_ai.svg"
                 alt="AI Icon"
