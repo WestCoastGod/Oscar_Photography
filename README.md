@@ -3,6 +3,11 @@
 Link to the website: https://oscar-photography.vercel.app/
 ![HiFi Website Design](public/images/hifi_web.jpg)
 
+# Future Ideas
+
+- Set up Google Search Console to make the website searchable
+- Add notes to the stargazing prediction website
+
 # Development Logs
 
 ## 11/06/2025
