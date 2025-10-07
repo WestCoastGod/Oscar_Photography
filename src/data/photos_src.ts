@@ -568,6 +568,13 @@ const originalPhotos = [
     title: "Geese",
     desc: "🪿🪿🪿🪿🪿",
   },
+  {
+    id: 84,
+    src: "/images/photos/lake_ad_excellentiam.JPG",
+    low: "/images/low_quality/lake_ad_excellentiam.JPG",
+    title: "Lake Ad Excellentiam",
+    desc: "Aesthetic Lake",
+  }
 ];
 
 export default originalPhotos;

@@ -1,8 +1,8 @@
 from PIL import Image
 import os
 
-folder = r"public\images\photos"
-low_quality_folder = r"public\images\low_quality"
+folder = r"photos"
+low_quality_folder = r"low_quality"
 MAX_SIZE = int(1.5 * 1048576)  # 1.5MB for reduced image
 MAX_PIXELS = 10000000  # 10MP for reduced image
 LOW_QUALITY_TARGET = 200 * 1024  # 200KB for low quality preview
