@@ -20,7 +20,10 @@ const Photography = () => {
   }, [previewLoaded]);
 
   const breakpointColumnsObj = {
-    default: 4,
+    default: 7,
+    2560: 6,
+    1920: 5,
+    1440: 4,
     1100: 3,
     700: 2,
     500: 2,
