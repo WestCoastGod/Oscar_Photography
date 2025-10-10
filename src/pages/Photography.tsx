@@ -51,7 +51,7 @@ const Photography = () => {
       <SEO
         title="Photography"
         description="Browse WestCoastGod's photography portfolio featuring stunning landscape, nature, and creative photography from around the world."
-        keywords="photography portfolio, landscape photography, nature photos, creative photography, WestCoastGod photos"
+        keywords="photography portfolio, landscape photography, nature photos, creative photography, WestCoastGod photos, Oscar Zhang photography, Oscar Zhang photos"
         url="https://westcoastgod-photography.vercel.app/photography"
       />
       <aside className="w-22 flex-shrink-0 bg-white">
