@@ -1,6 +1,7 @@
 # WestCoastGod Photography
 
 Link to the website: https://westcoastgod-photography.vercel.app/
+
 ![HiFi Website Design](public/images/hifi_web.jpg)
 
 # Future Ideas
