@@ -8,6 +8,7 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useState, useEffect, useRef } from "react";
+import SEO from "../components/SEO";
 
 // 修復 Leaflet 標記圖標問題
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -176,6 +177,12 @@ const MapPage = () => {
         boxSizing: "border-box", 
       }}
     >
+      <SEO
+        title="Hong Kong Stargazing"
+        description="Interactive Hong Kong stargazing map showing light pollution levels, sky brightness (Bortle scale), and 7-day stargazing forecast with cloud cover predictions."
+        keywords="Hong Kong stargazing, light pollution map, Bortle scale, night sky, astronomy, stargazing forecast, Hong Kong night sky"
+        url="https://oscar-photography.vercel.app/hk-stargazing"
+      />
       <canvas ref={canvasRef} style={{ display: "none" }} />
       <div
         style={{

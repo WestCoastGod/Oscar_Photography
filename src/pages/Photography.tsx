@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import Masonry from "react-masonry-css";
 import originalPhotos from "../data/photos_src";
+import SEO from "../components/SEO";
 
 const Photography = () => {
   const photos = originalPhotos;
@@ -47,6 +48,12 @@ const Photography = () => {
 
   return (
     <div className="flex min-h-screen">
+      <SEO
+        title="Photography"
+        description="Browse Oscar's photography portfolio featuring stunning landscape, nature, and creative photography from around the world."
+        keywords="photography portfolio, landscape photography, nature photos, creative photography, Oscar photos"
+        url="https://oscar-photography.vercel.app/photography"
+      />
       <aside className="w-22 flex-shrink-0 bg-white">
         {/* Sidebar content */}
       </aside>

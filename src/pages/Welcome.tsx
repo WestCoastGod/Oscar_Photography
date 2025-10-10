@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import SEO from "../components/SEO";
 import "../styles/background_animation.css";
 
 export const ShootingStars: React.FC = () => {
@@ -68,6 +69,12 @@ export const ShootingStars: React.FC = () => {
 const Welcome = () => {
   return (
     <>
+      <SEO
+        title="Welcome"
+        description="Welcome to Oscar Photography - Explore stunning photography, Hong Kong stargazing maps, and creative visual stories. Glad that you are here!"
+        keywords="Oscar Photography, photography portfolio, Hong Kong stargazing, welcome"
+        url="https://oscar-photography.vercel.app/"
+      />
       <ShootingStars />
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center">
         <h1 className="glad-msg text-3xl sm:text-4xl md:text-5xl lg:text-5xl font-bold mb-4 animate-fade-in text-center whitespace-pre-line leading-tight px-4 sm:px-8 md:px-10 py-4 sm:py-6 bg-white/80 rounded-full inline-block">
