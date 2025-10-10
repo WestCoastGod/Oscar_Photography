@@ -11,7 +11,7 @@ export default function About() {
         title="About"
         description="Learn more about WestCoastGod - CUHK student, AI developer, and passionate photographer."
         keywords="WestCoastGod, CUHK, AI developer, photographer, about WestCoastGod"
-        url="https://oscar-photography.vercel.app/about"
+        url="https://westcoastgod-photography.vercel.app/about"
       />
       {/* Background animation canvas */}
       <div

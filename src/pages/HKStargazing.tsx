@@ -181,7 +181,7 @@ const MapPage = () => {
         title="Hong Kong Stargazing"
         description="Interactive Hong Kong stargazing map showing light pollution levels, sky brightness (Bortle scale), and 7-day stargazing forecast with cloud cover predictions."
         keywords="Hong Kong stargazing, light pollution map, Bortle scale, night sky, astronomy, stargazing forecast, Hong Kong night sky"
-        url="https://oscar-photography.vercel.app/hk-stargazing"
+        url="https://westcoastgod-photography.vercel.app/hk-stargazing"
       />
       <canvas ref={canvasRef} style={{ display: "none" }} />
       <div

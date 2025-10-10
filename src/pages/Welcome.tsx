@@ -73,7 +73,7 @@ const Welcome = () => {
         title="Welcome"
         description="Welcome to WestCoastGod Photography - Explore stunning photography, Hong Kong stargazing maps, and creative visual stories. Glad that you are here!"
         keywords="WestCoastGod Photography, photography portfolio, Hong Kong stargazing, welcome"
-        url="https://oscar-photography.vercel.app/"
+        url="https://westcoastgod-photography.vercel.app/"
       />
       <ShootingStars />
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center">

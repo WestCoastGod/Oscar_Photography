@@ -52,7 +52,7 @@ const Photography = () => {
         title="Photography"
         description="Browse WestCoastGod's photography portfolio featuring stunning landscape, nature, and creative photography from around the world."
         keywords="photography portfolio, landscape photography, nature photos, creative photography, WestCoastGod photos"
-        url="https://oscar-photography.vercel.app/photography"
+        url="https://westcoastgod-photography.vercel.app/photography"
       />
       <aside className="w-22 flex-shrink-0 bg-white">
         {/* Sidebar content */}
