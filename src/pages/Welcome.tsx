@@ -1,9 +1,45 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import "../styles/background_animation.css";
 
-export const ShootingStars: React.FC = () => (
-  <div className="stars">
-    {Array.from({ length: 190 }).map((_, i) => {
+export const ShootingStars: React.FC = () => {
+  const [starCount, setStarCount] = useState(190);
+
+  useEffect(() => {
+    const getStarCount = () => {
+      const width = window.innerWidth;
+      const cores = navigator.hardwareConcurrency || 4;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Reduce stars if user prefers reduced motion
+      if (prefersReducedMotion) return 30;
+
+      // Base count on screen width
+      let count = 190;
+      if (width < 768) {
+        count = 40; // Phone
+      } else if (width < 1024) {
+        count = 90; // Tablet
+      }
+
+      // Further reduce on low-end devices (fewer CPU cores)
+      if (cores < 4 && count > 50) {
+        count = Math.floor(count * 0.6);
+      }
+
+      return count;
+    };
+
+    setStarCount(getStarCount());
+
+    const handleResize = () => setStarCount(getStarCount());
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return (
+    <div className="stars">
+      {Array.from({ length: starCount }).map((_, i) => {
       const tail = (Math.random() * 2.5 + 5).toFixed(2); // 5~7.5em
       const top = (Math.random() * 200 - 30).toFixed(2); // -30~130vh
       const duration = (Math.random() * 6 + 6).toFixed(3); // 6~12s
@@ -27,6 +63,7 @@ export const ShootingStars: React.FC = () => (
     })}
   </div>
 );
+};
 
 const Welcome = () => {
   return (
