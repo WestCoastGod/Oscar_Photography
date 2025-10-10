@@ -10,6 +10,11 @@ Link to the website: https://oscar-photography.vercel.app/
 
 # Development Logs
 
+## 11/10/2025
+
+- Adjust photo columns to fit ultrawide screen
+- Adjust welcome page stars number to fit different devices
+
 ## 11/06/2025
 
 - Add animation and SVG figure to sidebard and About Me page, referenced from [Antoine Wodniack](https://codepen.io/wodniack/pen/abyoKEa)
