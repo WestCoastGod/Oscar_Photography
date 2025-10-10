@@ -179,8 +179,8 @@ const MapPage = () => {
     >
       <SEO
         title="Hong Kong Stargazing"
-        description="Interactive Hong Kong stargazing map showing light pollution levels, sky brightness (Bortle scale), and 7-day stargazing forecast with cloud cover predictions."
-        keywords="Hong Kong stargazing, light pollution map, Bortle scale, night sky, astronomy, stargazing forecast, Hong Kong night sky"
+        description="Interactive Hong Kong stargazing map showing light pollution levels, sky brightness (Bortle scale), and 7-day stargazing forecast with cloud cover predictions. 香港觀星地圖，顯示光污染程度、天空亮度（波特爾等級）及7天觀星預報。"
+        keywords="Hong Kong stargazing, light pollution map, Bortle scale, night sky, astronomy, stargazing forecast, Hong Kong night sky, 香港觀星, 香港觀星地圖, 光污染地圖, 波特爾等級, 觀星預報, 天空亮度, 香港夜空, 天文觀測"
         url="https://westcoastgod-photography.vercel.app/hk-stargazing"
       />
       <canvas ref={canvasRef} style={{ display: "none" }} />
