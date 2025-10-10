@@ -2,15 +2,15 @@ import { ReactP5Wrapper } from "react-p5-wrapper";
 import { sketch } from "../p5sketch";
 import SEO from "../components/SEO";
 
-const titles = ["Oscar Zhang", "CUHK Student", "AI DEVELOPE"];
+const titles = ["WestCoastGod", "CUHK Student", "AI DEVELOPE"];
 
 export default function About() {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-white dark:bg-black w-full h-full overflow-hidden">
       <SEO
         title="About"
-        description="Learn more about Oscar Zhang - CUHK student, AI developer, and passionate photographer."
-        keywords="Oscar Zhang, CUHK, AI developer, photographer, about Oscar"
+        description="Learn more about WestCoastGod - CUHK student, AI developer, and passionate photographer."
+        keywords="WestCoastGod, CUHK, AI developer, photographer, about WestCoastGod"
         url="https://oscar-photography.vercel.app/about"
       />
       {/* Background animation canvas */}

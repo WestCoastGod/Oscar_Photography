@@ -10,7 +10,7 @@ interface SEOProps {
 const SEO = ({ title, description, keywords, url }: SEOProps) => {
   useEffect(() => {
     // Update title
-    document.title = `${title} | Oscar Photography`;
+    document.title = `${title} | WestCoastGod Photography`;
 
     // Update or create meta tags
     const updateMetaTag = (name: string, content: string, property = false) => {
@@ -33,14 +33,14 @@ const SEO = ({ title, description, keywords, url }: SEOProps) => {
     }
 
     // Open Graph
-    updateMetaTag("og:title", `${title} | Oscar Photography`, true);
+    updateMetaTag("og:title", `${title} | WestCoastGod Photography`, true);
     updateMetaTag("og:description", description, true);
     if (url) {
       updateMetaTag("og:url", url, true);
     }
 
     // Twitter
-    updateMetaTag("twitter:title", `${title} | Oscar Photography`, true);
+    updateMetaTag("twitter:title", `${title} | WestCoastGod Photography`, true);
     updateMetaTag("twitter:description", description, true);
     if (url) {
       updateMetaTag("twitter:url", url, true);

@@ -50,8 +50,8 @@ const Photography = () => {
     <div className="flex min-h-screen">
       <SEO
         title="Photography"
-        description="Browse Oscar's photography portfolio featuring stunning landscape, nature, and creative photography from around the world."
-        keywords="photography portfolio, landscape photography, nature photos, creative photography, Oscar photos"
+        description="Browse WestCoastGod's photography portfolio featuring stunning landscape, nature, and creative photography from around the world."
+        keywords="photography portfolio, landscape photography, nature photos, creative photography, WestCoastGod photos"
         url="https://oscar-photography.vercel.app/photography"
       />
       <aside className="w-22 flex-shrink-0 bg-white">

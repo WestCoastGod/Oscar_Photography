@@ -71,8 +71,8 @@ const Welcome = () => {
     <>
       <SEO
         title="Welcome"
-        description="Welcome to Oscar Photography - Explore stunning photography, Hong Kong stargazing maps, and creative visual stories. Glad that you are here!"
-        keywords="Oscar Photography, photography portfolio, Hong Kong stargazing, welcome"
+        description="Welcome to WestCoastGod Photography - Explore stunning photography, Hong Kong stargazing maps, and creative visual stories. Glad that you are here!"
+        keywords="WestCoastGod Photography, photography portfolio, Hong Kong stargazing, welcome"
         url="https://oscar-photography.vercel.app/"
       />
       <ShootingStars />
