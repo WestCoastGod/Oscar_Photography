@@ -12,8 +12,10 @@ Link to the website: https://oscar-photography.vercel.app/
 
 ## 11/10/2025
 
-- Adjust photo columns to fit ultrawide screen
-- Adjust welcome page stars number to fit different devices
+- Adjust photo columns to fit ultrawide screen (up to 7 columns)
+- Adjust welcome page stars number based on device performance and screen size
+- Add SEO optimization: meta tags, sitemap, robots.txt for Google Search indexing
+- Set up Google Search Console verification
 
 ## 11/06/2025
 
